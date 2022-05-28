@@ -20,6 +20,9 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "types": [
+      "jest",
+    ],
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/__tests__/Web3Connect.text.js"],
   "exclude": ["node_modules"]
