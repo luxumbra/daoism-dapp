@@ -1,13 +1,13 @@
-import { Box, HStack, Button, Text } from "@chakra-ui/react"
-import { FC } from "react"
+import { FC } from 'react';
 
-export const Footer: FC = () => {
+import { Box, HStack, Text } from '@chakra-ui/react';
 
-  return (
-    <Box as="footer" position="fixed" bottom={0} left={0} w="100%">
+export const Footer: FC = () => (
+  <Box as="footer" position="fixed" bottom={0} left={0} w="100%">
     <HStack align="center" justify="center">
-      <Box><Text>Footer</Text></Box>
+      <Box>
+        <Text>Footer</Text>
+      </Box>
     </HStack>
   </Box>
-  )
-}
+);
