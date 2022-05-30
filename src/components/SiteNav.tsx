@@ -1,9 +1,42 @@
 import { FC, useRef } from 'react';
 
-import { Box, IconButton, useColorModeValue, useDisclosure, VStack } from '@chakra-ui/react';
-import { MdMenu, MdMenuOpen } from 'react-icons/md';
+import {
+  Box,
+  HStack,
+  IconButton,
+  // useBreakpointValue,
+  useColorMode,
+  useColorModeValue,
+  useDisclosure,
+  VStack,
+} from '@chakra-ui/react';
+import { MdDarkMode, MdLightMode, MdMenu, MdMenuOpen } from 'react-icons/md';
 
 import ChakraNextLink from '@daoism/components/ChakraNextLink';
+
+import { Web3Connect } from './Web3Connect';
+
+export const HeaderTools: FC = () => {
+  const { toggleColorMode } = useColorMode();
+  const buttonColor = useColorModeValue('yellow.500', 'grey.500');
+  const toggleIcon = useColorModeValue(<MdLightMode />, <MdDarkMode />);
+  // const isMobile = useBreakpointValue({ base: true, sm: false });
+
+  return (
+    <HStack w="25%" justify="flex-end" position={{ base: 'fixed', xl: 'relative' }} top="5%" right={5}>
+      <IconButton
+        icon={toggleIcon}
+        aria-label="Toggle dark mode"
+        className="--no-shadow"
+        color={buttonColor}
+        fontSize="3xl"
+        colorScheme="ghost"
+        onClick={toggleColorMode}
+      />
+      <Web3Connect />
+    </HStack>
+  );
+};
 
 export const MobileMenu: FC = () => {
   const { getDisclosureProps, getButtonProps } = useDisclosure();
@@ -16,7 +49,7 @@ export const MobileMenu: FC = () => {
       <IconButton
         icon={disclosureProps.hidden ? <MdMenu /> : <MdMenuOpen />}
         colorScheme="ghost"
-        aria-label="Toggle menu"
+        aria-label={disclosureProps.hidden ? 'Open menu' : 'Close menu'}
         color="inherit"
         fontSize="3xl"
         zIndex={10}
@@ -45,6 +78,7 @@ export const MobileMenu: FC = () => {
           <ChakraNextLink href="/about">About</ChakraNextLink>
         </VStack>
       </Box>
+      {disclosureProps.hidden ? undefined : <HeaderTools />}
     </>
   );
 };
@@ -53,26 +87,29 @@ export const DesktopMenu: FC = () => {
   const desktopMenu = useRef<HTMLDivElement>(null);
 
   return (
-    <VStack
-      ref={desktopMenu}
-      display={{ base: 'initial', xl: 'none' }}
-      as="menu"
-      position="fixed"
-      top={0}
-      left={0}
-      w="100vw"
-      height="100vh"
-      maxH="100vh"
-      justify="center"
-      alignContent="center"
-      spacing={8}
-      px={0}
-      className="gradient"
-      border="1px solid"
-      zIndex={9}
-    >
-      <ChakraNextLink href="/">Home</ChakraNextLink>
-      <ChakraNextLink href="/about">About</ChakraNextLink>
-    </VStack>
+    <>
+      <VStack
+        ref={desktopMenu}
+        display={{ base: 'initial', xl: 'none' }}
+        as="menu"
+        position="fixed"
+        top={0}
+        left={0}
+        w="100vw"
+        height="100vh"
+        maxH="100vh"
+        justify="center"
+        alignContent="center"
+        spacing={8}
+        px={0}
+        className="gradient"
+        border="1px solid"
+        zIndex={9}
+      >
+        <ChakraNextLink href="/">Home</ChakraNextLink>
+        <ChakraNextLink href="/about">About</ChakraNextLink>
+      </VStack>
+      <HeaderTools />
+    </>
   );
 };

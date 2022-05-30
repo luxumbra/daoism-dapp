@@ -1,15 +1,10 @@
 import { FC } from 'react';
 
-import { Box, HStack, IconButton, Text, useBreakpointValue, useColorMode, useColorModeValue } from '@chakra-ui/react';
-import { MdDarkMode, MdLightMode } from 'react-icons/md';
+import { Box, HStack, Text, useBreakpointValue, useColorModeValue } from '@chakra-ui/react';
 
 import { DesktopMenu, MobileMenu } from '@daoism/components/SiteNav';
-import { Web3Connect } from '@daoism/components/Web3Connect';
 
 export const Header: FC = () => {
-  const { toggleColorMode } = useColorMode();
-  const buttonColor = useColorModeValue('yellow.500', 'grey.500');
-  const toggleIcon = useColorModeValue(<MdLightMode />, <MdDarkMode />);
   const isMobile = useBreakpointValue({ base: true, sm: false });
 
   return (
@@ -35,24 +30,18 @@ export const Header: FC = () => {
       }}
     >
       <HStack spacing={0} align="center" justify="space-between">
-        <Box w="25%" display="inherit" alignContent="center" order={{ base: 2, lg: 1 }} zIndex={10}>
-          <Text fontSize="inherit" fontWeight={700}>
-            DAOism
+        <Box
+          w={{ base: 'auto', xl: '25%' }}
+          display="inherit"
+          alignContent="center"
+          order={{ base: 2, lg: 0 }}
+          zIndex={10}
+        >
+          <Text fontWeight={700} fontSize={{ base: '6vmin', xl: 'inherit' }}>
+            {isMobile ? 'DS' : 'Daoism Systems'}
           </Text>
         </Box>
         {!isMobile ? <DesktopMenu /> : <MobileMenu />}
-        <HStack w="25%" justify="flex-end" order={3}>
-          <IconButton
-            icon={toggleIcon}
-            aria-label="Toggle dark mode"
-            className="--no-shadow"
-            color={buttonColor}
-            fontSize="3xl"
-            colorScheme="ghost"
-            onClick={toggleColorMode}
-          />
-          <Web3Connect />
-        </HStack>
       </HStack>
     </Box>
   );

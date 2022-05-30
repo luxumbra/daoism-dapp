@@ -137,14 +137,14 @@ export const DSTheme = extendTheme({
         zIndex: 10,
       },
       button: {
-        svg: {
-          filter: `drop-shadow(0 0 1px ${DSColors.colors.black})`,
-        },
-        '&.--no-shadow': {
-          svg: {
-            filter: 'none',
-          },
-        },
+        // svg: {
+        //   filter: `drop-shadow(0 0 1px ${DSColors.colors.black})`,
+        // },
+        // '&.--no-shadow': {
+        //   svg: {
+        //     filter: 'none',
+        //   },
+        // },
       },
 
       '.loading-bar': {

@@ -33,8 +33,8 @@ export const AppDrawer: FC<AppDrawerProps> = ({ headerTitle, type, isValidNetwor
     <>
       {!isValidNetwork && type === 'network' && (
         <HStack>
-          <Text ref={mismatchRef} as="span" fontSize="sm">
-            rong netwerk
+          <Text ref={mismatchRef} as="span" fontSize="sm" color="red.600">
+            r0ng network
           </Text>
           <Button colorScheme={isValidNetwork ? 'blue' : 'red'} size="sm" onClick={onOpen}>
             Change network

@@ -11,7 +11,6 @@ interface NetworkSwitcherProps {
 export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ isValid }): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const { chainId, switchNetwork } = useEthers();
-  console.log('NetworkSwitcher', chainId, isValid);
 
   const handleNetworkSwitch = async (network: number) => {
     try {
