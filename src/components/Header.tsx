@@ -1,16 +1,6 @@
-import { FC, useRef } from 'react';
+import { FC } from 'react';
 
-import {
-  Box,
-  Button,
-  HStack,
-  IconButton,
-  Text,
-  useBreakpointValue,
-  useColorMode,
-  useColorModeValue,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, HStack, IconButton, Text, useBreakpointValue, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { MdDarkMode, MdLightMode } from 'react-icons/md';
 
 import { DesktopMenu, MobileMenu } from '@daoism/components/SiteNav';

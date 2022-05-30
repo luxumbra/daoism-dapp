@@ -1,6 +1,6 @@
 import { FC, useRef } from 'react';
 
-import { Box, Button, IconButton, useColorModeValue, useDisclosure, VStack } from '@chakra-ui/react';
+import { Box, IconButton, useColorModeValue, useDisclosure, VStack } from '@chakra-ui/react';
 import { MdMenu, MdMenuOpen } from 'react-icons/md';
 
 import ChakraNextLink from '@daoism/components/ChakraNextLink';
@@ -10,7 +10,6 @@ export const MobileMenu: FC = () => {
   const mobileMenu = useRef<HTMLDivElement>(null);
   const btnProps = getButtonProps();
   const disclosureProps = getDisclosureProps();
-  console.log(btnProps, disclosureProps);
 
   return (
     <>
