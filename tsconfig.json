@@ -24,6 +24,6 @@
       "jest",
     ],
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/__tests__/Web3Connect.text.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

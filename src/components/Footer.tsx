@@ -1,13 +1,11 @@
 import { FC } from 'react';
 
-import { Box, HStack, Text } from '@chakra-ui/react';
+import { Box, HStack, Text, useColorModeValue } from '@chakra-ui/react';
 
 export const Footer: FC = () => (
-  <Box as="footer" position="fixed" bottom={0} left={0} w="100%">
-    <HStack align="center" justify="center">
-      <Box>
-        <Text>Footer</Text>
-      </Box>
+  <Box as="footer" position="fixed" bottom={0} left={0} minH="5%" w="100%" zIndex={1000}>
+    <HStack align="center" justify="center" color={useColorModeValue('gray.700', 'gray.300')}>
+      <Text>Made with 💓 by lux</Text>
     </HStack>
   </Box>
 );

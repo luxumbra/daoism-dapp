@@ -8,6 +8,7 @@
   "extends": [
     "next",
     "next/core-web-vitals",
+    "./node_modules/@sentry/typescript/tsconfig.json",
     "airbnb",
     "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",
@@ -17,10 +18,6 @@
     "plugin:unicorn/recommended",
     "prettier" // Prettier must be last brodie.
   ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
   "plugins": [
     "@typescript-eslint",
     "eslint-comments",

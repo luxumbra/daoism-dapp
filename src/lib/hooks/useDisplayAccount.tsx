@@ -1,6 +1,6 @@
 import { shortenAddress } from '@usedapp/core';
 
-export const useDisplayAccount = (account: string | undefined, ens: string | null | undefined): string => {
+export const useDisplayAccount = (account: string | undefined, ens: string | null | undefined, ensError: Error | null): string => {
   const displayAddress = account ? shortenAddress(account) : undefined;
 
   try {

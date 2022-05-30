@@ -1,25 +1,22 @@
 import { Box, Text } from '@chakra-ui/react';
+import Head from 'next/head';
+
+import { PageSection } from '@daoism/components/PageSection';
 //
 
 const Home = (): JSX.Element => (
   <Box className="wrapper">
-    <Box as="main" display="flex" flexFlow="column nowrap" w="full">
-      <Box
-        as="section"
-        display="flex"
-        position="relative"
-        w="full"
-        maxW="100vw"
-        maxH="100vh"
-        h="100vh"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Box maxW="3xl">
-          <Text as="h1">Daoism Systems Challenge</Text>
-        </Box>
+    <Head>
+      <title>Daoism Systems dApp</title>
+      <meta name="description" content="An interview challenge set by Daoism Systems 😱" />
+    </Head>
+    <PageSection>
+      <Box maxW="3xl">
+        <Text as="h1" color="inherit">
+          Daoism Systems Challenge
+        </Text>
       </Box>
-    </Box>
+    </PageSection>
   </Box>
 );
 

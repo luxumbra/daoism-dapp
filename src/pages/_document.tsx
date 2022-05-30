@@ -1,4 +1,7 @@
+import { ColorModeScript } from '@chakra-ui/react';
 import { Html, Head, Main, NextScript } from 'next/document';
+
+import { DSTheme } from '@daoism/theme';
 
 export default function Document() {
   return (
@@ -7,7 +10,6 @@ export default function Document() {
         <link rel="icon" href="/favicon.ico" />
 
         <meta charSet="utf8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-status-bar-style" content="#000000" />
         <meta name="msapplication-navbutton-color" content="#000000" />
@@ -33,6 +35,7 @@ export default function Document() {
         />
       </Head>
       <body>
+        <ColorModeScript initialColorMode={DSTheme.config.initialColorMode} />
         <Main />
         <NextScript />
       </body>
