@@ -16,8 +16,8 @@ export const useDisplayAccount = (
     const accountDisplay = ens ?? displayAddress;
 
     if (ensError && !shown.current) {
-      toast({ description: `ENS lookup failed: ${ensError}`, status: 'error' });
       shown.current = true;
+      toast({ description: `ENS lookup failed: ${ensError}`, status: 'info', duration: 5000 });
     }
 
     return accountDisplay && accountDisplay.length > 0 ? accountDisplay : '';
