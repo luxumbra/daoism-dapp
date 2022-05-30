@@ -1,15 +1,26 @@
-import { FC, useEffect } from 'react';
+import { FC, useRef } from 'react';
 
-import { Box, Button, HStack, IconButton, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  HStack,
+  IconButton,
+  Text,
+  useBreakpointValue,
+  useColorMode,
+  useColorModeValue,
+  VStack,
+} from '@chakra-ui/react';
 import { MdDarkMode, MdLightMode } from 'react-icons/md';
 
-import ChakraNextLink from '@daoism/components/ChakraNextLink';
+import { DesktopMenu, MobileMenu } from '@daoism/components/SiteNav';
 import { Web3Connect } from '@daoism/components/Web3Connect';
 
 export const Header: FC = () => {
   const { toggleColorMode } = useColorMode();
   const buttonColor = useColorModeValue('yellow.500', 'grey.500');
   const toggleIcon = useColorModeValue(<MdLightMode />, <MdDarkMode />);
+  const isMobile = useBreakpointValue({ base: true, sm: false });
 
   return (
     <Box
@@ -34,14 +45,13 @@ export const Header: FC = () => {
       }}
     >
       <HStack spacing={0} align="center" justify="space-between">
-        <Box w="25%" display="inherit" alignContent="center">
-          <Text fontSize="inherit">Daoism Systems dApp</Text>
+        <Box w="25%" display="inherit" alignContent="center" order={{ base: 2, lg: 1 }} zIndex={10}>
+          <Text fontSize="inherit" fontWeight={700}>
+            DAOism
+          </Text>
         </Box>
-        <HStack as="menu" w="auto" justify="center" spacing={8} px={0}>
-          <ChakraNextLink href="/">Home</ChakraNextLink>
-          <ChakraNextLink href="/about">About</ChakraNextLink>
-        </HStack>
-        <HStack w="25%" justify="flex-end">
+        {!isMobile ? <DesktopMenu /> : <MobileMenu />}
+        <HStack w="25%" justify="flex-end" order={3}>
           <IconButton
             icon={toggleIcon}
             aria-label="Toggle dark mode"
