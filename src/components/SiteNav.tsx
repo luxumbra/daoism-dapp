@@ -88,27 +88,19 @@ export const DesktopMenu: FC = () => {
 
   return (
     <>
-      <VStack
+      <HStack
         ref={desktopMenu}
-        display={{ base: 'initial', xl: 'none' }}
         as="menu"
-        position="fixed"
-        top={0}
-        left={0}
-        w="100vw"
-        height="100vh"
-        maxH="100vh"
         justify="center"
         alignContent="center"
         spacing={8}
         px={0}
-        className="gradient"
-        border="1px solid"
         zIndex={9}
+        data-testid="sitenav"
       >
         <ChakraNextLink href="/">Home</ChakraNextLink>
         <ChakraNextLink href="/about">About</ChakraNextLink>
-      </VStack>
+      </HStack>
       <HeaderTools />
     </>
   );
