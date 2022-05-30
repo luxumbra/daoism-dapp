@@ -1,5 +1,5 @@
 // theme.js
-import { Theme as ChakraTheme, theme as baseTheme } from '@chakra-ui/react';
+import { theme as baseTheme } from '@chakra-ui/react';
 
 export const DSColors = {
   colors: {

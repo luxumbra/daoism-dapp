@@ -8,7 +8,6 @@
   "extends": [
     "next",
     "next/core-web-vitals",
-    "./node_modules/@sentry/typescript/tsconfig.json",
     "airbnb",
     "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",

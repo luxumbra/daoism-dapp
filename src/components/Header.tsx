@@ -1,15 +1,11 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
-import { Box, Button, HStack, IconButton, Text, useColorMode, useColorModeValue } from '@chakra-ui/react';
-import { MdDarkMode, MdLightMode } from 'react-icons/md';
+import { Box, HStack, Text, useBreakpointValue, useColorModeValue } from '@chakra-ui/react';
 
-import ChakraNextLink from '@daoism/components/ChakraNextLink';
-import { Web3Connect } from '@daoism/components/Web3Connect';
+import { DesktopMenu, MobileMenu } from '@daoism/components/SiteNav';
 
 export const Header: FC = () => {
-  const { toggleColorMode } = useColorMode();
-  const buttonColor = useColorModeValue('yellow.500', 'grey.500');
-  const toggleIcon = useColorModeValue(<MdLightMode />, <MdDarkMode />);
+  const isMobile = useBreakpointValue({ base: true, sm: false });
 
   return (
     <Box
@@ -34,25 +30,18 @@ export const Header: FC = () => {
       }}
     >
       <HStack spacing={0} align="center" justify="space-between">
-        <Box w="25%" display="inherit" alignContent="center">
-          <Text fontSize="inherit">Daoism Systems dApp</Text>
+        <Box
+          w={{ base: 'auto', xl: '25%' }}
+          display="inherit"
+          alignContent="center"
+          order={{ base: 2, lg: 0 }}
+          zIndex={10}
+        >
+          <Text fontWeight={700} fontSize={{ base: '6vmin', xl: 'inherit' }}>
+            {isMobile ? 'DS' : 'Daoism Systems'}
+          </Text>
         </Box>
-        <HStack as="menu" w="auto" justify="center" spacing={8} px={0}>
-          <ChakraNextLink href="/">Home</ChakraNextLink>
-          <ChakraNextLink href="/about">About</ChakraNextLink>
-        </HStack>
-        <HStack w="25%" justify="flex-end">
-          <IconButton
-            icon={toggleIcon}
-            aria-label="Toggle dark mode"
-            className="--no-shadow"
-            color={buttonColor}
-            fontSize="3xl"
-            colorScheme="ghost"
-            onClick={toggleColorMode}
-          />
-          <Web3Connect />
-        </HStack>
+        {!isMobile ? <DesktopMenu /> : <MobileMenu />}
       </HStack>
     </Box>
   );

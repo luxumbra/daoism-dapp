@@ -1,7 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 
-import { HStack, Button, Text, useColorModeValue } from '@chakra-ui/react';
+import { HStack, Text, IconButton } from '@chakra-ui/react';
 import { useConfig, useEthers, useLookupAddress } from '@usedapp/core';
+import { MdLogin, MdLogout } from 'react-icons/md';
 
 import { NetworkSwitcher } from '@daoism/components/NetworkSwitcher';
 import { Profile } from '@daoism/components/Profile';
@@ -35,6 +36,10 @@ export const Web3Connect: FC = () => {
       } else {
         deactivate();
       }
+      if (error) {
+        console.log('error', error);
+        throw error;
+      }
     } catch (error_) {
       throw new Error(`Error activating wallet ${error_}`);
     }
@@ -50,7 +55,7 @@ export const Web3Connect: FC = () => {
     <HStack>
       {!isLoading && account && isValidNetwork && (
         <>
-          <Text as="span" size="sm">
+          <Text as="span" fontSize={{ base: 'xl', xl: 'sm' }}>
             {accountDisplay}
           </Text>
           <Profile user={account} />
@@ -58,18 +63,17 @@ export const Web3Connect: FC = () => {
       )}
       {!isLoading && !isValidNetwork && account && <NetworkSwitcher isValid={isValidNetwork} />}
       {isLoading && account && <Text size="sm">Loading account...</Text>}
-      <Button
-        size="sm"
-        variant="solid"
-        bgColor={useColorModeValue('gray.700', 'gray.400')}
-        color={useColorModeValue('gray.400', 'gray.700')}
-        _hover={{
-          bgColor: useColorModeValue('gray.600', 'gray.300'),
-        }}
+      <IconButton
+        icon={account ? <MdLogout /> : <MdLogin />}
+        aria-label={account ? 'Logout' : 'Login'}
+        color="inherit"
+        colorScheme="ghost"
+        fontSize="3xl"
+        // _hover={{
+        //   bgColor: useColorModeValue('gray.600', 'gray.300'),
+        // }}
         onClick={toggleConnect}
-      >
-        {!account ? 'Connect' : 'Disconnect'}
-      </Button>
+      />
     </HStack>
   );
 };

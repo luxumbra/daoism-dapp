@@ -55,7 +55,7 @@ export const DSTheme = extendTheme({
       },
       h1: {
         color: 'green.100',
-        fontSize: '4vw',
+        fontSize: { base: '5vmin', lg: '3vw' },
         lineHeight: '1.2',
         fontWeight: 900,
         '& + p': {
@@ -67,7 +67,7 @@ export const DSTheme = extendTheme({
       },
       h2: {
         color: 'blue.100',
-        fontSize: '3vw',
+        fontSize: { base: '4.5vmin', lg: '2.7vw' },
         fontWeight: '900',
         filter: 'drop-shadow(0 0 1px rgba(0,0,0,0.9))',
         '& + p': {
@@ -115,6 +115,12 @@ export const DSTheme = extendTheme({
             boxShadow: 'none',
           },
         },
+        '&.mobile-nav': {
+          a: {
+            fontSize: { base: '6vmin', md: '1.2vmax' },
+            fontWeight: 700,
+          },
+        },
       },
       section: {
         position: 'relative',
@@ -131,18 +137,35 @@ export const DSTheme = extendTheme({
         zIndex: 10,
       },
       button: {
-        svg: {
-          filter: `drop-shadow(0 0 2px ${DSColors.colors.black})`,
-        },
-        '&.--no-shadow': {
-          svg: {
-            filter: 'none',
-          },
-        },
+        // svg: {
+        //   filter: `drop-shadow(0 0 1px ${DSColors.colors.black})`,
+        // },
+        // '&.--no-shadow': {
+        //   svg: {
+        //     filter: 'none',
+        //   },
+        // },
       },
 
       '.loading-bar': {
         bg: DSColors.colors.green[400],
+      },
+      // Gradients
+      '.gradient': {
+        bgGradient: `linear(90deg, ${DSColors.colors.green[500]} -29.22%, ${DSColors.colors.green[600]} 107.53%)`,
+        '&.metagame': {
+          bgGradient: `linear(90deg, ${DSColors.colors.purple[300]} -29.22%, ${DSColors.colors.purple[400]} 107.53%)`,
+        },
+        '&.text': {
+          display: 'inline-block',
+          bgClip: 'text',
+          textShadow: 'unset',
+          zIndex: 20_001,
+          filter: 'drop-shadow(0 0 1px rgba(0,0,0,0.6))',
+          '&.noshadow': {
+            filter: 'unset',
+          },
+        },
       },
     },
   },

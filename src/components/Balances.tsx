@@ -79,9 +79,7 @@ export default function Balances({ user, network, tokens }: BalancesProps) {
           </Text>
         )}
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 5, lg: 3 }}>
-          {tokens &&
-            tokens.length > 0 &&
-            tokens.map((token) => <BalanceCard token={token.contract} user={user} />)}
+          {tokens && tokens.length > 0 && tokens.map((token) => <BalanceCard token={token.contract} user={user} />)}
         </SimpleGrid>
       </>
     </Box>

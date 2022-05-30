@@ -1,26 +1,27 @@
-import {render, RenderOptions} from '@testing-library/react';
-import {ThemeProvider, ColorModeProvider} from '@chakra-ui/react';
+import React, { ReactElement, FC, ReactNode } from 'react';
+
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import '@testing-library/jest-dom';
+import { render, RenderOptions } from '@testing-library/react';
+
 import 'mutationobserver-shim';
 import { DSTheme } from '@daoism/theme';
-import { ReactElement, JSXElementConstructor, FC, PropsWithChildren } from 'react';
 
-import type { ThemeProviderProps } from '@chakra-ui/react';
+const ChakraRenderer: FC<{ children: ReactNode }> = ({ children }) => (
+  <ChakraProvider theme={DSTheme}>
+    <>
+      <ColorModeScript initialColorMode={DSTheme.config.initialColorMode} />
+      {children}
+    </>
+  </ChakraProvider>
+);
 
+const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
+  render(ui, {
+    wrapper: ChakraRenderer,
+    ...options,
+  });
 
-// const ChakraRenderer: Render = ({children}) => {
-//     return (
-//         <ThemeProvider theme={DSTheme}>
-//             <ColorModeProvider value="dark">{children}</ColorModeProvider>
-//         </ThemeProvider>
-//     );
-// };
-
-// const customRender = (ui, options) =>
-//     render(ui, {
-//         wrapper: ChakraRenderer,
-//         ...options
-//     });
-
-// export * from '@testing-library/react';
-// export {customRender as render};
+// eslint-disable-next-line import/no-extraneous-dependencies
+export * from '@testing-library/react';
+export { customRender as render };
