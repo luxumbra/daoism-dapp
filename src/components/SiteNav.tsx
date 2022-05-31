@@ -13,8 +13,7 @@ import {
 import { MdDarkMode, MdLightMode, MdMenu, MdMenuOpen } from 'react-icons/md';
 
 import ChakraNextLink from '@daoism/components/ChakraNextLink';
-
-import { Web3Connect } from './Web3Connect';
+import { Web3Connect } from '@daoism/components/Web3Connect';
 
 export const HeaderTools: FC = () => {
   const { toggleColorMode } = useColorMode();

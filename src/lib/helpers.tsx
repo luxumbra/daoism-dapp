@@ -1,6 +1,13 @@
-import { Mainnet, Rinkeby, Polygon } from '@usedapp/core';
+import { Mainnet, Rinkeby, Polygon, NodeUrls } from '@usedapp/core';
 
-export const getCurrentChainName = (id: number) => {
+/**
+ * Gets the name of the chain from a list of valid chains
+ *
+ * TODO: Make this more dry 🌤️
+ * @param id The chain id
+ * @returns String The name of the chain
+ */
+export const getValidChainName = (id: number) => {
   switch (id) {
     case Mainnet.chainId:
       return 'Mainnet';
@@ -11,4 +18,15 @@ export const getCurrentChainName = (id: number) => {
     default:
       return 'Unsupported';
   }
+};
+
+/**
+ * Gets an array of supported chain id's
+ * @param chains The list of valid chains from useConfig
+ * @returns Array<number> The valid chain ids
+ */
+export const getSupportedChains = (chains: NodeUrls | undefined) => {
+  const ids: number[] | undefined = chains && Object.keys(chains).map((key) => Number.parseInt(key, 10));
+
+  return ids && ids;
 };

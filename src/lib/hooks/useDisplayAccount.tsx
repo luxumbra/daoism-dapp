@@ -3,26 +3,27 @@ import { useRef } from 'react';
 import { useToast } from '@chakra-ui/react';
 import { shortenAddress } from '@usedapp/core';
 
-export const useDisplayAccount = (
-  account: string | undefined,
-  ens: string | null | undefined,
-  ensError?: Error | null
-): string => {
+export const useDisplayAccount = (account: string | undefined, ens: string | null | undefined): string | undefined => {
   const toast = useToast();
-  const displayAddress = account ? shortenAddress(account) : undefined;
-  const shown = useRef<boolean>(false);
+  const displayAddress = account && typeof account === 'string' ? shortenAddress(account) : undefined;
+  const toastId = 'display-account';
+  const accountDisplay = ens ?? displayAddress;
 
   try {
-    const accountDisplay = ens ?? displayAddress;
-
-    if (ensError && !shown.current) {
-      shown.current = true;
-      toast({ description: `ENS lookup failed: ${ensError}`, status: 'info', duration: 5000 });
+    if (accountDisplay && accountDisplay.length > 0) {
+      return accountDisplay;
     }
-
-    return accountDisplay && accountDisplay.length > 0 ? accountDisplay : '';
+    throw new Error('Failed to get account');
   } catch (error) {
-    toast({ description: `Error: ${error}`, status: 'info', duration: 5000 });
-    return 'No user';
+    if (account && !toast.isActive(toastId)) {
+      toast({
+        id: toastId,
+        description: `Error: ${error}`,
+        status: 'info',
+        variant: 'subtle',
+        duration: 5000,
+      });
+    }
+    return undefined;
   }
 };

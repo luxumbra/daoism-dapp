@@ -1,4 +1,4 @@
-import { FC, useRef } from 'react';
+import { ElementRef, FC, useRef } from 'react';
 
 import {
   Text,
@@ -13,6 +13,7 @@ import {
   DrawerBody,
   HStack,
   Button,
+  DrawerProps,
 } from '@chakra-ui/react';
 import { MdAccountBalanceWallet } from 'react-icons/md';
 
@@ -26,26 +27,29 @@ export interface AppDrawerProps {
 export const AppDrawer: FC<AppDrawerProps> = ({ headerTitle, type, isValidNetwork, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef<HTMLButtonElement>(null);
+  const networkBtnRef = useRef<HTMLButtonElement>(null);
   const mismatchRef = useRef<HTMLParagraphElement>(null);
   const profileIconColor = useColorModeValue('gray.700', 'gray.300');
 
   return (
     <>
-      {!isValidNetwork && type === 'network' && (
-        <HStack>
-          <Text ref={mismatchRef} as="span" fontSize="sm" color="red.600">
-            r0ng network
-          </Text>
+      {type === 'network' && (
+        <HStack align="center" justify="flex-end">
+          {!isValidNetwork && (
+            <Text ref={mismatchRef} as="span" fontSize="sm" color="red.600">
+              r0ng network
+            </Text>
+          )}
           <Button colorScheme={isValidNetwork ? 'blue' : 'red'} size="sm" onClick={onOpen}>
             Change network
           </Button>
         </HStack>
       )}
+
       {type === 'profile' && (
         <IconButton
           ref={btnRef}
           icon={<MdAccountBalanceWallet size="3xl" />}
-          className="--no-shadow"
           aria-label="Open wallet"
           colorScheme="ghost"
           color={profileIconColor}
@@ -72,8 +76,8 @@ export const AppDrawer: FC<AppDrawerProps> = ({ headerTitle, type, isValidNetwor
     </>
   );
 };
-const defaultProps = {
+
+AppDrawer.defaultProps = {
   type: 'network',
-  isValidNetwork: false,
+  isValidNetwork: true,
 };
-AppDrawer.defaultProps = defaultProps;
