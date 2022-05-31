@@ -31,7 +31,7 @@ export const getNetworkValidity = (id: number | undefined, networks: number[] | 
 export const Web3Connect: FC = () => {
   const { active, chainId, account, activateBrowserWallet, deactivate, error } = useEthers();
   const { ens, isLoading, error: ensError } = useLookupAddress(account);
-  const accountDisplay = useDisplayAccount(account, ens, ensError);
+  const accountDisplay = useDisplayAccount(account, ens);
   const { readOnlyUrls } = useConfig();
   const supportedChains = getSupportedChains(readOnlyUrls);
   const [isValidNetwork, setIsValidNetwork] = useState<NetworkValidity>(false);
