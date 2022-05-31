@@ -35,8 +35,8 @@ export const Header: FC = () => {
           display="inherit"
           alignContent="center"
           alignItems="center"
-          order={{ base: 2, lg: 0 }}
-          pl={5}
+          order={{ base: 0, lg: 0 }}
+          pl={{ base: 3, xl: 5 }}
           zIndex={10}
         >
           <Text as="span" fontWeight={700} fontSize={{ base: '6vmin', xl: 'inherit' }}>

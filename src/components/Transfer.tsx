@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import {
   Button,
   Flex,
@@ -10,6 +12,7 @@ import {
   Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { useContractFunction, useEthers, useSendTransaction } from '@usedapp/core';
 // import { useEthers, useSendTransaction } from '@usedapp/core';
 // import { utils } from 'ethers';
 
@@ -17,7 +20,28 @@ import {
  * TODO: Buidl a custom component that can be used to send transactions
  * @returns {JSX.Element}
  */
+
 const Transfer = (): JSX.Element => (
+  // store the form values
+  // const [formData, setFormData] = useState({
+  //   contract: '',
+  //   to: '',
+  //   amount: '',
+  // });
+  // const { chainId } = useEthers();
+  // const { sendTransaction } = useSendTransaction();
+  // const { state, send } = useContractFunction(contract, 'transfer', { transactionName: 'Transfer' });
+
+  // async function transferTokens(contract: string, to: string, quantity: number): Promise<void> {
+  //   console.log('transferTokens', { address, quantity });
+  //   try {
+  //     const walletSigner = wallet.connect(window.ethersProvider);
+  //     const gasPrice = await walletSigner.provider.getGasPrice();
+  //   } catch (error) {
+  //     throw new Error(`Transfer failed: ${error.message}`);
+  //   }
+  // }
+
   <Flex align="center" justify="center">
     <Stack
       spacing={4}
@@ -37,14 +61,14 @@ const Transfer = (): JSX.Element => (
       <Text as="h4" lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
         Send tokens
       </Text>
-      <Tooltip label="Please ensure this is the correct contract address" aria-label="Check address" hasArrow>
-        <FormControl id="email" isRequired>
-          <FormLabel>Token Contract</FormLabel>
+      <Tooltip label="Please please ensure this is the correct address" aria-label="Check address" hasArrow>
+        <FormControl id="transfer-receiving-address" isRequired>
+          <FormLabel>Receiving wallet</FormLabel>
           <Input placeholder="0x..." _placeholder={{ color: 'gray.500' }} type="text" />
         </FormControl>
       </Tooltip>
-      <Tooltip label="The tokens will be minted to the connected wallet" aria-label="Check address" hasArrow>
-        <FormControl id="password" isRequired>
+      <Tooltip label="How many?" aria-label="Check address" hasArrow>
+        <FormControl id="transfer-amount" isRequired>
           <FormLabel>Amount</FormLabel>
           <Input type="number" />
         </FormControl>
@@ -56,6 +80,7 @@ const Transfer = (): JSX.Element => (
           _hover={{
             bg: 'blue.500',
           }}
+          // onClick={(e) => transferTokens(to, amount)}
         >
           Submit
         </Button>

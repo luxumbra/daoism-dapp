@@ -40,7 +40,7 @@ export const AppDrawer: FC<AppDrawerProps> = ({ headerTitle, type, isValidNetwor
               r0ng network
             </Text>
           )}
-          <Button colorScheme={isValidNetwork ? 'blue' : 'red'} size="sm" onClick={onOpen}>
+          <Button ref={networkBtnRef} colorScheme={isValidNetwork ? 'blue' : 'red'} size="sm" onClick={onOpen}>
             Change network
           </Button>
         </HStack>
@@ -49,10 +49,11 @@ export const AppDrawer: FC<AppDrawerProps> = ({ headerTitle, type, isValidNetwor
       {type === 'profile' && (
         <IconButton
           ref={btnRef}
-          icon={<MdAccountBalanceWallet size="3xl" />}
+          icon={<MdAccountBalanceWallet />}
           aria-label="Open wallet"
           colorScheme="ghost"
           color={profileIconColor}
+          fontSize={{ base: '3xl', lg: '3xl' }}
           onClick={onOpen}
         />
       )}

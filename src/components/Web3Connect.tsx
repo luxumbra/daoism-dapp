@@ -26,7 +26,7 @@ export const getNetworkValidity = (id: number | undefined, networks: number[] | 
 
 /**
  * Connects to a Web3 wallet (only Metamask for now) and enables the users profile
- * @returns {JSX.Element}
+ * @returns JSX.Element
  */
 export const Web3Connect: FC = () => {
   const { active, chainId, account, activateBrowserWallet, deactivate, error } = useEthers();
@@ -73,7 +73,7 @@ export const Web3Connect: FC = () => {
     <HStack justify="flex-end" px={0}>
       {!isLoading && account && isValidNetwork && (
         <>
-          <Text as="span" fontSize={{ base: 'xl', xl: 'sm' }}>
+          <Text as="span" fontSize={{ base: 'md', xl: 'sm' }}>
             {accountDisplay}
           </Text>
           <Profile user={account} networks={supportedChains} />
@@ -92,7 +92,7 @@ export const Web3Connect: FC = () => {
         aria-label={account ? 'Logout' : 'Login'}
         color="inherit"
         colorScheme="ghost"
-        fontSize="3xl"
+        fontSize={{ base: '3xl', lg: '3xl' }}
         onClick={toggleConnect}
       />
     </HStack>

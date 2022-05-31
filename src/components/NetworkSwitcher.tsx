@@ -33,58 +33,58 @@ export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ isValid, currentNetw
   const handleNetworkSwitch = (network: number) => {
     console.log('handleNetworkSwitch', { network });
 
-    // try {
-    //   // if (!isSwitching) {
-    //   // }
-    //   if (!isSwitching) {
-    //     setIsSwitching(true);
-    //     switchNetwork(network);
-    //     toast({
-    //       id: toastId,
-    //       description: `Switching network...`,
-    //       status: 'info',
-    //       variant: 'subtle',
-    //       duration: 5000,
-    //     });
-    //     // return;
-    //   }
+    try {
+      // if (!isSwitching) {
+      // }
+      if (!isSwitching) {
+        setIsSwitching(true);
+        switchNetwork(network);
+        toast({
+          id: toastId,
+          description: `Switching network...`,
+          status: 'info',
+          variant: 'subtle',
+          duration: 5000,
+        });
+        // return;
+      }
 
-    //   if (currentNetwork === network && toastRef.current) {
-    //     setIsSwitching(false);
-    //     toast.update(toastRef.current, {
-    //       description: `Switched to ${network}`,
-    //       status: 'success',
-    //       duration: 3000,
-    //     });
-    //     // return;
-    //   }
-    //   throw new Error(`Switching to ${getValidChainName(network)} failed`);
-    // } catch (error_) {
-    //   setIsSwitching(false);
-    //   // console.log('chainId after error', chainId, network, error);
+      if (currentNetwork === network && toastRef.current) {
+        setIsSwitching(false);
+        toast.update(toastRef.current, {
+          description: `Switched to ${network}`,
+          status: 'success',
+          duration: 3000,
+        });
+        // return;
+      }
+      throw new Error(`Switching to ${getValidChainName(network)} failed`);
+    } catch {
+      setIsSwitching(false);
+      // console.log('chainId after error', chainId, network, error);
 
-    //   // if (toastRef.current)
-    //   //   toast.update(toastId, {
-    //   //     title: `Switch network: description: Error: ${error_}`,
-    //   //     status: 'error',
-    //   //     duration: 5000,
-    //   //   });
-    // } finally {
-    //   if (toastRef.current) {
-    //     toast.update(toastRef.current, { duration: 3000 });
-    //   }
-    //   setIsSwitching(false);
-    // }
+      // if (toastRef.current)
+      //   toast.update(toastId, {
+      //     title: `Switch network: description: Error: ${error_}`,
+      //     status: 'error',
+      //     duration: 5000,
+      //   });
+    } finally {
+      if (toastRef.current) {
+        toast.update(toastRef.current, { duration: 3000 });
+      }
+      setIsSwitching(false);
+    }
   };
 
   useEffect(() => {
-    if (chainId === currentNetwork && toastRef.current) {
-      toast.update(toastRef.current, {
-        description: `Switched to ${chainId}`,
-        status: 'success',
-        duration: 3000,
-      });
-    }
+    // if (chainId === currentNetwork && toastRef.current) {
+    //   toast.update(toastRef.current, {
+    //     description: `Switched to ${chainId}`,
+    //     status: 'success',
+    //     duration: 3000,
+    //   });
+    // }
   }, [chainId, currentNetwork, toast]);
 
   return (

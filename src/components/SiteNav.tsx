@@ -22,7 +22,13 @@ export const HeaderTools: FC = () => {
   // const isMobile = useBreakpointValue({ base: true, sm: false });
 
   return (
-    <HStack w="25%" justify="flex-end" position={{ base: 'fixed', xl: 'relative' }} top="5%" right={5}>
+    <HStack
+      w="25%"
+      justify="flex-end"
+      position={{ base: 'fixed', xl: 'relative' }}
+      top={{ base: '10%', xl: 'initial' }}
+      right={{ base: 5, xl: 'initial' }}
+    >
       <IconButton
         icon={toggleIcon}
         aria-label="Toggle dark mode"
