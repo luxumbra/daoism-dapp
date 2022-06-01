@@ -92,7 +92,7 @@ const Transfer: FC = () => {
                 as="span"
                 fontSize="sm"
                 color="blue.500"
-                onClick={() => copyString(formData.contract.toString())}
+                onClick={() => copyString(testContract)}
               >{`Contract: ${formData.contract}`}</Text>
             </Tooltip>
             <Form>
