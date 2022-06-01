@@ -32,20 +32,32 @@ export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ isValid, currentNetw
 
   const handleNetworkSwitch = (network: number) => {
     console.log('handleNetworkSwitch', { network });
+    const currentChain = network;
 
     try {
       // if (!isSwitching) {
       // }
       if (!isSwitching) {
         setIsSwitching(true);
-        switchNetwork(network);
         toast({
           id: toastId,
           description: `Switching network...`,
           status: 'info',
           variant: 'subtle',
-          duration: 5000,
+          duration: null,
         });
+        switchNetwork(network);
+        try {
+          if (currentChain !== chainId) {
+            toast.update(toastId, {
+              description: `Switched to ${getValidChainName(currentChain)}`,
+              status: 'success',
+              duration: 5000,
+            });
+          }
+        } catch (error_) {
+          throw new Error(`Error switching network: ${error_}`);
+        }
         // return;
       }
 
@@ -58,17 +70,18 @@ export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ isValid, currentNetw
         });
         // return;
       }
-      throw new Error(`Switching to ${getValidChainName(network)} failed`);
-    } catch {
+      toast.update(toastId, { description: `Switched to ${network}`, status: 'success', duration: 3000 });
+      setIsSwitching(false);
+      return chainId;
+    } catch (error_) {
       setIsSwitching(false);
       // console.log('chainId after error', chainId, network, error);
 
-      // if (toastRef.current)
-      //   toast.update(toastId, {
-      //     title: `Switch network: description: Error: ${error_}`,
-      //     status: 'error',
-      //     duration: 5000,
-      //   });
+      toast.update(toastId, {
+        description: `Error switching network: ${error_}`,
+        status: 'error',
+        duration: 5000,
+      });
     } finally {
       if (toastRef.current) {
         toast.update(toastRef.current, { duration: 3000 });
