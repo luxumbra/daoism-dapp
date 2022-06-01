@@ -45,32 +45,32 @@ export const getSupportedChains = (chains: NodeUrls | undefined) => {
   return ids && ids;
 };
 
-export const validateAddress = async (address: string | undefined): Promise<string | undefined> => {
-  let error;
+export const validateAddress = async (address: string | undefined): Promise<string | undefined | unknown> => {
+  let err;
   try {
     await slep(300);
     if (!address) {
       console.log('address is empty');
 
-      error = 'Address is required';
+      err = 'Address is required';
     }
     if (address && !utils.getAddress(address)) {
       console.log('isInvalid', address);
-      error = `Invalid address ${address}`;
-      throw new Error(error);
+      err = `Invalid address ${address}`;
+      throw new Error(err);
     }
 
     if (address === testContract) {
-      error = `Address ${address} is a test contract`;
-      throw new Error(error);
+      err = `Address ${address} is a test contract`;
+      throw new Error(err);
     }
-    console.log('validatedAddress', address, error);
+    console.log('validatedAddress', address, err);
 
-    return error;
-  } catch (error_) {
-    console.log('validateAddress', error_.message);
-
-    return error_.message;
+    return err;
+  } catch {
+    // console.log('validateAddress', typeof error);
+    // err = error.message;
+    return err;
   }
 };
 
@@ -78,20 +78,20 @@ export const validateAmount = (amount: number | string | undefined) => {
   const number = amount && Number(amount);
   console.log('validateAmount', typeof amount, number);
 
-  let error;
+  let err;
   if (!number || amount === '') {
-    error = 'Amount is required';
+    err = 'Amount is required';
   }
   if (number && number <= 0) {
-    error = 'Amount must be greater than 0';
+    err = 'Amount must be greater than 0';
   }
   if (number && typeof number !== 'number') {
     console.log('invalid amount', typeof number, number);
 
-    error = 'Amount must be a number';
+    err = 'Amount must be a number';
   }
 
-  return error;
+  return err;
 };
 
 export const copyString = (text: string): boolean => {
