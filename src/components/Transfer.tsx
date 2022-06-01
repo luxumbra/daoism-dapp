@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 
 import {
   Button,
@@ -6,74 +6,26 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Heading,
   Input,
   Stack,
   Text,
-  Toast,
   Tooltip,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { selectOptions } from '@testing-library/user-event/dist/types/utility';
-import { useContractFunction, useEthers, useLookupAddress, useSendTransaction } from '@usedapp/core';
+import { useEthers, useLookupAddress, useSendTransaction } from '@usedapp/core';
 import { Falsy, TypedContract } from '@usedapp/core/dist/esm/src/model/types';
-import { Contract, utils } from 'ethers';
-import { Formik, Field, Form, FormikHelpers, FormikProps, FieldProps, FormikState, FieldInputProps } from 'formik';
+import { Formik, Field, Form, FormikHelpers, FormikState, FieldInputProps } from 'formik';
 // import { useEthers, useSendTransaction } from '@usedapp/core';
 
-interface FormDataProps {
+import { testContract } from '@daoism/lib/constants';
+import { copyString, validateAddress, validateAmount, slep } from '@daoism/lib/helpers';
+
+export interface FormDataProps {
   contract: Falsy | TypedContract | string | undefined;
   toAddress: string | undefined;
   amount: number | undefined;
 }
-const testContract = '0xc778417E063141139Fce010982780140Aa0cD5Ab'; // Rinkeby wETH
-const sleep = (ms: number) =>
-  new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-
-const validateAddress = async (address: string | undefined): Promise<string | undefined> => {
-  let error;
-  try {
-    await sleep(300);
-    if (!address) {
-      console.log('address is empty');
-
-      error = 'Address is required';
-    }
-    if (address && !utils.getAddress(address)) {
-      console.log('isInvalid', address);
-      error = `Invalid address ${address}`;
-      throw new Error(error);
-    }
-    console.log('validatedAddress', address, error);
-
-    return error;
-  } catch {
-    return `Invalid address: ${address}`;
-  }
-};
-
-const validateAmount = (amount: number | string | undefined) => {
-  const number = amount && Number(amount);
-  console.log('validateAmount', typeof amount, number);
-
-  let error;
-  if (!number || amount === '') {
-    error = 'Amount is required';
-  }
-  if (number && number <= 0) {
-    error = 'Amount must be greater than 0';
-  }
-  if (number && typeof number !== 'number') {
-    console.log('invalid amount', typeof number, number);
-
-    error = 'Amount must be a number';
-  }
-
-  return error;
-};
 
 /**
  * TODO: Buidl a custom component that can be used to send transactions
@@ -108,8 +60,8 @@ const Transfer: FC = () => {
 
   const handleSubmit = async (values: FormDataProps, helpers: FormikHelpers<FormDataProps>) => {
     console.log('values', { values, helpers });
-    toast({ title: `Submitting...${JSON.stringify(values, null, 2)}`, status: 'info', duration: 5000 });
-    await sleep(1000);
+    toast({ title: `Submitting...${JSON.stringify(formData, null, 2)}`, status: 'info', duration: 5000 });
+    await slep(1000);
     helpers.setSubmitting(false);
   };
 
@@ -135,6 +87,14 @@ const Transfer: FC = () => {
             <Text as="h4" lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
               Send tokens
             </Text>
+            <Tooltip label="Click to copy contract address" aria-label="Check address" hasArrow>
+              <Text
+                as="span"
+                fontSize="sm"
+                color="blue.500"
+                onClick={() => copyString(formData.contract.toString())}
+              >{`Contract: ${formData.contract}`}</Text>
+            </Tooltip>
             <Form>
               <Field name="toAddress" validate={() => validateAddress(formData.toAddress)}>
                 {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}

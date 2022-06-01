@@ -30,13 +30,17 @@ export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ isValid, currentNetw
   //   });
   // };
 
-  const handleNetworkSwitch = (network: number) => {
+  const handleNetworkSwitch = async (network: number): Promise<number | undefined> => {
+    const sleep = (ms: number) =>
+      new Promise((resolve) => {
+        setTimeout(resolve, ms);
+      });
     console.log('handleNetworkSwitch', { network });
     const currentChain = network;
 
     try {
-      // if (!isSwitching) {
-      // }
+      // if (!isSw
+      await sleep(1000);
       if (!isSwitching) {
         setIsSwitching(true);
         toast({
@@ -82,6 +86,7 @@ export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ isValid, currentNetw
         status: 'error',
         duration: 5000,
       });
+      return chainId;
     } finally {
       if (toastRef.current) {
         toast.update(toastRef.current, { duration: 3000 });

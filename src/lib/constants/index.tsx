@@ -10,6 +10,8 @@ export const networksConfig: Config = {
   networks: [Mainnet, Rinkeby, Polygon],
 };
 
+export const testContract = '0xc778417E063141139Fce010982780140Aa0cD5Ab'; // Rinkeby wETH
+
 export const rinkebyTokens = {
   waffle: '0x9ED2135850920BA65566D010B947b49E88651675',
   weth: '0xc778417E063141139Fce010982780140Aa0cD5Ab',
