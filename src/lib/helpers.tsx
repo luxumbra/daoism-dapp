@@ -1,7 +1,7 @@
 import { Mainnet, Rinkeby, Polygon, NodeUrls } from '@usedapp/core';
 import { utils } from 'ethers';
 
-import { testContract } from '@daoism/lib/constants';
+import { testMintContract, testTransferContract } from '@daoism/lib/constants';
 
 /**
  *  @name slep
@@ -48,19 +48,24 @@ export const getSupportedChains = (chains: NodeUrls | undefined) => {
 export const validateAddress = async (address: string | undefined): Promise<string | undefined | unknown> => {
   let err;
   try {
-    await slep(300);
+    await slep(500);
     if (!address) {
       console.log('address is empty');
 
       err = 'Address is required';
     }
+    if (address && address.length !== 42) {
+      console.log('address not 42 long');
+
+      err = `Address is not 42 characters long: ${address.length} chars`;
+    }
     if (address && !utils.getAddress(address)) {
       console.log('isInvalid', address);
       err = `Invalid address ${address}`;
-      throw new Error(err);
+      // throw new Error(err);
     }
 
-    if (address === testContract) {
+    if (address === testTransferContract || address === testMintContract) {
       err = `Address ${address} is a test contract`;
       throw new Error(err);
     }
