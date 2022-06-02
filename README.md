@@ -1,4 +1,4 @@
-![Tests](https://github.com/luxumbra/daoism-dapp/actions/workflows/main/badge.svg)
+![Tests](https://github.com/luxumbra/daoism-dapp/actions/workflows/main.yml/badge.svg)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
