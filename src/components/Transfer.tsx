@@ -18,7 +18,7 @@ import { Falsy, TypedContract } from '@usedapp/core/dist/esm/src/model/types';
 import { Formik, Field, Form, FormikHelpers, FormikState, FieldInputProps } from 'formik';
 // import { useEthers, useSendTransaction } from '@usedapp/core';
 
-import { testContract } from '@daoism/lib/constants';
+import { testTransferContract } from '@daoism/lib/constants';
 import { copyString, validateAddress, validateAmount, slep } from '@daoism/lib/helpers';
 
 export interface FormDataProps {
@@ -35,7 +35,7 @@ const Transfer: FC = () => {
   const toast = useToast();
   // store the form values
   const [formData, setFormData] = useState<FormDataProps>({
-    contract: testContract,
+    contract: testTransferContract,
     toAddress: '',
     amount: 0,
   });
@@ -92,7 +92,7 @@ const Transfer: FC = () => {
                 as="span"
                 fontSize="sm"
                 color="blue.500"
-                onClick={() => copyString(testContract)}
+                onClick={() => copyString(testTransferContract)}
               >{`Contract: ${formData.contract}`}</Text>
             </Tooltip>
             <Form>
