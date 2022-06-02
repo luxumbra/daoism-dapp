@@ -27,6 +27,8 @@ jobs:
 
       - name: Install the things
         run: yarn
+      - name: Lint your messy code 🤖
+        run: yarn lint:fix
       - name: Run tests
         run: yarn test        
       - name: Test coverage
