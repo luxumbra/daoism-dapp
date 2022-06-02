@@ -50,17 +50,12 @@ export const validateAddress = async (address: string | undefined): Promise<stri
   try {
     await slep(500);
     if (!address) {
-      console.log('address is empty');
-
       err = 'Address is required';
     }
     if (address && address.length !== 42) {
-      console.log('address not 42 long');
-
       err = `Address is not 42 characters long: ${address.length} chars`;
     }
     if (address && !utils.getAddress(address)) {
-      console.log('isInvalid', address);
       err = `Invalid address ${address}`;
       // throw new Error(err);
     }
@@ -69,7 +64,6 @@ export const validateAddress = async (address: string | undefined): Promise<stri
       err = `Address ${address} is a test contract`;
       throw new Error(err);
     }
-    console.log('validatedAddress', address, err);
 
     return err;
   } catch {
@@ -81,7 +75,6 @@ export const validateAddress = async (address: string | undefined): Promise<stri
 
 export const validateAmount = (amount: number | string | undefined) => {
   const number = amount && Number(amount);
-  console.log('validateAmount', typeof amount, number);
 
   let err;
   if (!number || amount === '') {
@@ -91,8 +84,6 @@ export const validateAmount = (amount: number | string | undefined) => {
     err = 'Amount must be greater than 0';
   }
   if (number && typeof number !== 'number') {
-    console.log('invalid amount', typeof number, number);
-
     err = 'Amount must be a number';
   }
 
@@ -102,6 +93,7 @@ export const validateAmount = (amount: number | string | undefined) => {
 export const copyString = (text: string): boolean => {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(text);
+    // eslint-disable-next-line no-alert
     alert(`Copied to clipboard: ${text}`); // TODO: use toast
     return true;
   }

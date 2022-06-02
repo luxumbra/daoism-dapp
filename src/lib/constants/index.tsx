@@ -9,7 +9,7 @@ export const networksConfig: Config = {
   },
   networks: [Mainnet, Rinkeby, Polygon],
 };
-
+// Lux contract on polygon 0x2C0bC596A00D6F1bDfEADff64e9F3b14CcCFafaB
 export const testTransferContract = '0xc778417E063141139Fce010982780140Aa0cD5Ab'; // Rinkeby wETH
 export const testMintContract = '0x9ed2135850920ba65566d010b947b49e88651675'; // Rinkeby WAFFLE
 

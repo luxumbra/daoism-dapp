@@ -1,14 +1,15 @@
-![Tests](https://github.com/luxumbra/daoism-dapp/actions/workflows/main.yml/badge.svg)
+[![Tests Status](https://github.com/luxumbra/daoism-dapp/actions/workflows/main.yml/badge.svg)](https://github.com/luxumbra/daoism-dapp/actions/workflows/main.yml)
+[![Coverage Status](https://coveralls.io/repos/github/luxumbra/daoism-dapp/badge.svg?branch=master)](https://coveralls.io/github/luxumbra/daoism-dapp?branch=master)
 
 ## About the challenge
 > **Daoism Systems Front-end Engineer Technical Challenge**
-> 
+>
 > This technical challenge will evaluate:
 > - best practices for React
 > - ability to implement web3 technologies such as calling a Solidity contract from UI or minting a token
 
 > **Overview**
-> 
+>
 > The applicant will be tasked with the creation of a simple React app that connects to a Metamask wallet and calls a Solidity contract function with the help of useDapp hook.
 
 ## Requirements
@@ -24,6 +25,13 @@
 ### Solution
 - Project was bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 - CSS framework used is Chakra UI
+- Using Chakra UIs Toast for giving feedback to the user or logging errors to the console. Would like to hook into Sentry or HoneyBadger for catching & tracking exceptions.
+- Formik library used for forms & validation
+- Uses Vercel & Github actions for Continuous Integration
+- Uses `@react/testing-library and Jest - currently only using stubs for the tests but things should be correctly configured for when I get to them)
+- Coverage of tests hooked into ['Coveralls'](https://coveralls.io/)
+- Set default contract for minting & transfer to WAFFLE (Rinkeby) for Daoism to test.
+
 
 ## Getting Started
 
@@ -33,7 +41,7 @@ First, install the things:
 yarn
 ```
 
-Fire up the app 
+Fire up the app
 ```bash
 yarn dev
 ```
@@ -46,9 +54,9 @@ yarn build
 ```
 
 Run the linter
-```bash 
+```bash
 yarn lint
-yarn lint:fix 
+yarn lint:fix
 ```
 
 Run tests
