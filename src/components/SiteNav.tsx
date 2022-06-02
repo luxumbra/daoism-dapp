@@ -13,8 +13,7 @@ import {
 import { MdDarkMode, MdLightMode, MdMenu, MdMenuOpen } from 'react-icons/md';
 
 import ChakraNextLink from '@daoism/components/ChakraNextLink';
-
-import { Web3Connect } from './Web3Connect';
+import { Web3Connect } from '@daoism/components/Web3Connect';
 
 export const HeaderTools: FC = () => {
   const { toggleColorMode } = useColorMode();
@@ -23,7 +22,13 @@ export const HeaderTools: FC = () => {
   // const isMobile = useBreakpointValue({ base: true, sm: false });
 
   return (
-    <HStack w="25%" justify="flex-end" position={{ base: 'fixed', xl: 'relative' }} top="5%" right={5}>
+    <HStack
+      w="25%"
+      justify="flex-end"
+      position={{ base: 'fixed', xl: 'relative' }}
+      top={{ base: '10%', xl: 'initial' }}
+      right={{ base: 5, xl: 'initial' }}
+    >
       <IconButton
         icon={toggleIcon}
         aria-label="Toggle dark mode"
@@ -88,27 +93,19 @@ export const DesktopMenu: FC = () => {
 
   return (
     <>
-      <VStack
+      <HStack
         ref={desktopMenu}
-        display={{ base: 'initial', xl: 'none' }}
         as="menu"
-        position="fixed"
-        top={0}
-        left={0}
-        w="100vw"
-        height="100vh"
-        maxH="100vh"
         justify="center"
         alignContent="center"
         spacing={8}
         px={0}
-        className="gradient"
-        border="1px solid"
         zIndex={9}
+        data-testid="sitenav"
       >
         <ChakraNextLink href="/">Home</ChakraNextLink>
         <ChakraNextLink href="/about">About</ChakraNextLink>
-      </VStack>
+      </HStack>
       <HeaderTools />
     </>
   );

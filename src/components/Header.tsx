@@ -14,7 +14,7 @@ export const Header: FC = () => {
       top={0}
       left={0}
       width="100%"
-      height={12}
+      height={20}
       px={5}
       py={3}
       zIndex="1000"
@@ -29,15 +29,17 @@ export const Header: FC = () => {
         },
       }}
     >
-      <HStack spacing={0} align="center" justify="space-between">
+      <HStack spacing={0} align="center" justify="space-between" flex="0 0 100%">
         <Box
           w={{ base: 'auto', xl: '25%' }}
           display="inherit"
           alignContent="center"
-          order={{ base: 2, lg: 0 }}
+          alignItems="center"
+          order={{ base: 0, lg: 0 }}
+          pl={{ base: 3, xl: 5 }}
           zIndex={10}
         >
-          <Text fontWeight={700} fontSize={{ base: '6vmin', xl: 'inherit' }}>
+          <Text as="span" fontWeight={700} fontSize={{ base: '6vmin', xl: 'inherit' }}>
             {isMobile ? 'DS' : 'Daoism Systems'}
           </Text>
         </Box>
