@@ -12,7 +12,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:coverage:watch": "jest --watch --coverage",
-    "test:codecov": "./codecov -t ${CODECOV_TOKEN}"
+    "test:codecov": "./codecov"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.1.2",

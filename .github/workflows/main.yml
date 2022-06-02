@@ -24,12 +24,18 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
       - name: Install the things
         run: yarn
       - name: Lint your messy code 🤖
         run: yarn lint:fix
       - name: Run tests
-        run: yarn test        
+        run: yarn test
       - name: Test coverage
         run: yarn test:coverage
+      - uses: codecov/codecov-action@v2
+        with:
+          files: ./coverage/clover.xml # optional
+          flags: unittests # optional
+          name: codecov-umbrella # optional
+          fail_ci_if_error: false # optional (default = false)
+          verbose: true # optional (default = false)
