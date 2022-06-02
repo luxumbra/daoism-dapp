@@ -44,10 +44,6 @@
     "@typescript-eslint/no-use-before-define": [
       "error"
     ],
-    "unicorn/prevent-abbreviations": "off",
-    // Airbnb prefers forEach
-    "unicorn/no-array-for-each": "off",
-    "unicorn/filename-case": "off",
     "import/extensions": "off",
     "import/no-unresolved": "error",
     "import/order": [
@@ -80,7 +76,13 @@
     "react/jsx-filename-extension": "off",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "unicorn/prevent-abbreviations": "off",
+    // Airbnb prefers forEach
+    "unicorn/no-array-for-each": "off",
+    "unicorn/filename-case": "off",
+    // Chakra `toast({duration: number | null}) Toast requires a null value if the toast is infinite.`
+    "unicorn/no-null": "warn"
   },
   "settings": {
     "import/parsers": {

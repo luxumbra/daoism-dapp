@@ -53,6 +53,9 @@ export const DSTheme = extendTheme({
           },
         },
       },
+      heading: {
+        fontFamily: '"Exo 2", sans-serif',
+      },
       h1: {
         color: 'green.100',
         fontSize: { base: '5vmin', lg: '3vw' },
@@ -91,7 +94,7 @@ export const DSTheme = extendTheme({
         },
       },
       h4: {
-        color: 'cyan.100',
+        color: 'blue.400',
         fontSize: '1vmax',
         fontWeight: 700,
       },
