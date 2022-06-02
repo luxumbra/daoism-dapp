@@ -15,14 +15,13 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { useEthers, useLookupAddress, useSendTransaction } from '@usedapp/core';
-import { Falsy, TypedContract } from '@usedapp/core/dist/esm/src/model/types';
 import { Formik, Field, Form, FormikHelpers, FormikState, FieldInputProps } from 'formik';
 
 // import { useEthers } from '@usedapp/core';
 import { FormDataProps } from '@daoism/components/Transfer';
+import { testMintContract } from '@daoism/lib/constants';
 import { copyString, validateAddress, validateAmount, slep } from '@daoism/lib/helpers';
 
-const testContract = '0xc778417E063141139Fce010982780140Aa0cD5Ab';
 /**
  * TODO: Buidl a custom component that can be used to mint tokens
  * @returns JSX.Element
@@ -31,7 +30,7 @@ const Mint: FC = () => {
   const toast = useToast();
   // store the form values
   const [formData, setFormData] = useState<FormDataProps>({
-    contract: testContract,
+    contract: testMintContract,
     toAddress: '',
     amount: 0,
   });
@@ -88,8 +87,8 @@ const Mint: FC = () => {
                 as="span"
                 fontSize="sm"
                 color="blue.500"
-                onClick={() => copyString(testContract)}
-              >{`Contract: ${testContract}`}</Text>
+                onClick={() => copyString(testMintContract)}
+              >{`Contract: ${testMintContract}`}</Text>
             </Tooltip>
             <Form>
               <Field name="toAddress" validate={() => validateAddress(formData.toAddress)}>
