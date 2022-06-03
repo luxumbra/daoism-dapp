@@ -10,13 +10,13 @@ export const networksConfig: Config = {
   networks: [Mainnet, Rinkeby, Polygon],
 };
 // Lux contract on polygon 0x2C0bC596A00D6F1bDfEADff64e9F3b14CcCFafaB
-export const testTransferContract = '0xc778417E063141139Fce010982780140Aa0cD5Ab'; // Rinkeby wETH
-export const testMintContract = '0x9ed2135850920ba65566d010b947b49e88651675'; // Rinkeby WAFFLE
+export const contractAddress = '0x85DEf9F64609DF4ef0c2b88D0aEC8298C78156F9'; // Rinkeby dapp token
 
 export const rinkebyTokens = {
   waffle: '0x9ED2135850920BA65566D010B947b49E88651675',
   weth: '0xc778417E063141139Fce010982780140Aa0cD5Ab',
   glove: '0x819B3853a76a7Be788412B099f906210CC8FFe2e',
+  dapp: '0x85DEf9F64609DF4ef0c2b88D0aEC8298C78156F9',
 };
 export const mainnetTokens = {
   metagame: '0x30cf203b48edaa42c3b4918e955fed26cd012a3f',
@@ -49,6 +49,11 @@ export const tokenList: TokenProps[] = [
   {
     name: 'Glove',
     contract: rinkebyTokens.glove,
+    chainId: Rinkeby.chainId,
+  },
+  {
+    name: 'Dapp',
+    contract: rinkebyTokens.dapp,
     chainId: Rinkeby.chainId,
   },
   {
