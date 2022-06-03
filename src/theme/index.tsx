@@ -53,6 +53,11 @@ export const DSTheme = extendTheme({
           },
         },
       },
+      '.chakra-toast': {
+        '.chakra-link': {
+          color: 'blue.500',
+        },
+      },
       heading: {
         fontFamily: '"Exo 2", sans-serif',
       },

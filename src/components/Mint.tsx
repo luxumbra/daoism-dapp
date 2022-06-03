@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import {
   Button,
@@ -8,16 +8,19 @@ import {
   FormLabel,
   Heading,
   Input,
+  Link,
   Stack,
   Text,
   ToastId,
   Tooltip,
   useColorModeValue,
   useToast,
+  UseToastOptions,
+  VStack,
 } from '@chakra-ui/react';
 import { Contract } from '@ethersproject/contracts';
 import { parseEther } from '@ethersproject/units';
-import { useContractFunction, useEthers, useSendTransaction, TransactionStatus } from '@usedapp/core';
+import { useContractFunction, TransactionState } from '@usedapp/core';
 import { TypedContract } from '@usedapp/core/dist/esm/src/model/types';
 import { utils } from 'ethers';
 import { Formik, Field, Form, FormikHelpers, FormikState, FieldInputProps } from 'formik';
@@ -33,6 +36,7 @@ import { copyString, validateAddress, validateAmount } from '@daoism/lib/helpers
  * */
 const Mint: FC = () => {
   const toast = useToast();
+  const toastRef = useRef<ToastId>();
   // store the form values
   const [formData, setFormData] = useState<FormDataProps>({
     contract: contractAddress,
@@ -43,10 +47,29 @@ const Mint: FC = () => {
 
   // const { parseUnits, formatUnits } = utils;
   const contract = new Contract(contractAddress, ERC20_ABI);
-  const { state, send, events, resetState } = useContractFunction(contract as unknown as TypedContract, 'transfer');
+  const { state, send, events, resetState } = useContractFunction(contract as unknown as TypedContract, 'mintTo');
 
   const bgColor = useColorModeValue('blue.200', 'gray.700');
   const headingColor = useColorModeValue('gray.700', 'blue.200');
+
+  const addToast = () => {
+    toastRef.current = toast({
+      id: 'mint-toast',
+      title: `Mint token 💰`,
+      description: `Minting ${formData.amount} token to ${formData.toAddress}`,
+      status: 'info',
+      variant: 'subtle',
+      duration: null,
+    });
+  };
+  const updateToast = useCallback(
+    (options: Omit<UseToastOptions, 'id'>) => {
+      if (toastRef.current) {
+        toast.update(toastRef.current, { ...options });
+      }
+    },
+    [toast]
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -57,29 +80,94 @@ const Mint: FC = () => {
   };
 
   const handleSubmit = async (values: FormDataProps, helpers: FormikHelpers<FormDataProps>) => {
-    toast({
-      title: `Mint token`,
-      description: `Minting token to ${values.toAddress}`,
-      status: 'info',
-      duration: 5000,
-    });
     const { toAddress, amount } = formData;
+    helpers.setSubmitting(true);
+    addToast();
 
     try {
       if (amount && amount > 0 && toAddress) {
         await send(toAddress, parseEther(amount.toString()));
-        if (state.status === 'Exception') {
-          throw new Error(`Error minting tokens: ${state.errorMessage}`);
-        }
-
-        toast({ title: `Transfer complete 🎉`, status: 'success', duration: 5000 });
         helpers.setSubmitting(false);
       }
     } catch {
-      toast({ title: `Transfer failed 😬`, description: `${state.errorMessage}`, status: 'error', duration: 5000 });
       helpers.setSubmitting(false);
     }
   };
+
+  useEffect(() => {
+    // console.log('state', state.status);
+    try {
+      switch (state.status) {
+        case 'Exception': {
+          throw new Error(`Error transfering tokens: ${state.errorMessage}`);
+        }
+        case 'Fail': {
+          throw new Error(`Error transfering tokens: ${state.errorMessage}`);
+        }
+        case 'Success': {
+          updateToast({
+            title: `Token mint 💰`,
+            description: `🎉 Mint complete :  ${formData.amount} tokens minted to ${formData.toAddress} 🎉`,
+            status: 'success',
+            duration: 5000,
+          });
+          updateToast({
+            title: `Token mint 💰`,
+            description: (
+              <VStack fontSize="md" align="flex-start" justify="left">
+                <Text as="span">
+                  🎉 Token mint complete 🎉
+                  <br />
+                  {formData.amount} tokens minted &amp; sent to {formData.toAddress}
+                </Text>
+                <Text as="span">Block number: {state.receipt?.blockNumber}</Text>
+                <Text as="span">
+                  <Link href={`https://rinkeby.etherscan.io/tx/${state.receipt?.transactionHash}`} isExternal>
+                    View receipt
+                  </Link>
+                </Text>
+              </VStack>
+            ),
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          });
+          break;
+        }
+        case 'Mining': {
+          updateToast({
+            title: `Token mint 💰`,
+            description: `Waiting for confirmations 🕑 `,
+            status: 'info',
+          });
+
+          break;
+        }
+        case 'PendingSignature': {
+          updateToast({
+            title: `Token mint 💰`,
+            description: `Signature pending 🕑...please sign the transaction`,
+            status: 'info',
+          });
+
+          break;
+        }
+        case 'None': {
+          break;
+        }
+        default: {
+          throw new Error(`Unknown state: ${state.status}`);
+        }
+      }
+    } catch {
+      updateToast({
+        title: `Token mint 💰`,
+        description: `${state.errorMessage}`,
+        status: 'error',
+        duration: 5000,
+      });
+    }
+  }, [formData, state, state.status, toast, updateToast]);
 
   return (
     <Flex align="center" justify="center">
@@ -160,7 +248,7 @@ const Mint: FC = () => {
                   isDisabled={helpers.isSubmitting || !helpers.isValid}
                   type="submit"
                 >
-                  Submit
+                  Mint
                 </Button>
               </Stack>
             </Form>
