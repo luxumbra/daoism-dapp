@@ -1,7 +1,7 @@
 import { Mainnet, Rinkeby, Polygon, NodeUrls } from '@usedapp/core';
 import { utils } from 'ethers';
 
-import { testMintContract, testTransferContract } from '@daoism/lib/constants';
+import { contractAddress } from '@daoism/lib/constants';
 
 /**
  *  @name slep
@@ -45,6 +45,7 @@ export const getSupportedChains = (chains: NodeUrls | undefined) => {
   return ids && ids;
 };
 
+// TODO: check for ens address in toAddress
 export const validateAddress = async (address: string | undefined): Promise<string | undefined | unknown> => {
   let err;
   try {
@@ -60,7 +61,7 @@ export const validateAddress = async (address: string | undefined): Promise<stri
       // throw new Error(err);
     }
 
-    if (address === testTransferContract || address === testMintContract) {
+    if (address === contractAddress || address === contractAddress) {
       err = `Address ${address} is a test contract`;
       throw new Error(err);
     }

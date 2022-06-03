@@ -17,8 +17,8 @@ export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ isValid, currentNetw
   const toast = useToast();
   const toastId = 'switch-network';
   const toastRef = useRef<ToastId>();
-  console.log('NetworkSwitcher', { isValid, currentNetwork, networks });
-  console.log('NetworkSwitcher', { chainId, error, isSwitching });
+  // console.log('NetworkSwitcher', { isValid, currentNetwork, networks });
+  // console.log('NetworkSwitcher', { chainId, error, isSwitching });
 
   // const createToast = () => {
   //   toastRef.current = toast({
