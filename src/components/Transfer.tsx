@@ -190,7 +190,7 @@ const Transfer: FC = () => {
   }, [formData, state, state.status, toast, updateToast]);
 
   return (
-    <Flex align="center" justify="center">
+    <Flex align="center" justify="center" data-testid="transfer">
       <Formik initialValues={formData} onSubmit={handleSubmit}>
         {(helpers) => (
           <Stack
