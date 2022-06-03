@@ -10,17 +10,22 @@ import {
   Input,
   Stack,
   Text,
+  ToastId,
   Tooltip,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { useEthers, useLookupAddress, useSendTransaction } from '@usedapp/core';
+import { Contract } from '@ethersproject/contracts';
+import { parseEther } from '@ethersproject/units';
+import { useContractFunction, useEthers, useSendTransaction, TransactionStatus } from '@usedapp/core';
+import { TypedContract } from '@usedapp/core/dist/esm/src/model/types';
+import { utils } from 'ethers';
 import { Formik, Field, Form, FormikHelpers, FormikState, FieldInputProps } from 'formik';
 
-// import { useEthers } from '@usedapp/core';
+import ERC20_ABI from '@daoism/abis/erc20.abi.json';
 import { FormDataProps } from '@daoism/components/Transfer';
-import { testMintContract } from '@daoism/lib/constants';
-import { copyString, validateAddress, validateAmount, slep } from '@daoism/lib/helpers';
+import { contractAddress } from '@daoism/lib/constants';
+import { copyString, validateAddress, validateAmount } from '@daoism/lib/helpers';
 
 /**
  * TODO: Buidl a custom component that can be used to mint tokens
@@ -30,15 +35,15 @@ const Mint: FC = () => {
   const toast = useToast();
   // store the form values
   const [formData, setFormData] = useState<FormDataProps>({
-    contract: testMintContract,
+    contract: contractAddress,
     toAddress: '',
     amount: 0,
   });
-  const { chainId, library } = useEthers();
   const btnRef = useRef<HTMLButtonElement>(null);
 
-  const { sendTransaction, state: sendState } = useSendTransaction({ transactionName: 'Transfer wETH' });
-  const { ens, isLoading, error: addressError } = useLookupAddress(formData.toAddress);
+  // const { parseUnits, formatUnits } = utils;
+  const contract = new Contract(contractAddress, ERC20_ABI);
+  const { state, send, events, resetState } = useContractFunction(contract as unknown as TypedContract, 'transfer');
 
   const bgColor = useColorModeValue('blue.200', 'gray.700');
   const headingColor = useColorModeValue('gray.700', 'blue.200');
@@ -46,18 +51,34 @@ const Mint: FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     const clean: number | string = typeof value === 'number' ? +value : value;
-    console.log('handleChange', name, value, clean);
+    // console.log('handleChange', name, value, clean);
 
-    // if (number)
-    console.log('value', value);
     setFormData((oldData) => ({ ...oldData, [name]: clean }));
   };
 
   const handleSubmit = async (values: FormDataProps, helpers: FormikHelpers<FormDataProps>) => {
-    console.log('values', { values, helpers });
-    toast({ title: `Submitting...${JSON.stringify(formData, null, 2)}`, status: 'info', duration: 5000 });
-    await slep(1000);
-    helpers.setSubmitting(false);
+    toast({
+      title: `Mint token`,
+      description: `Minting token to ${values.toAddress}`,
+      status: 'info',
+      duration: 5000,
+    });
+    const { toAddress, amount } = formData;
+
+    try {
+      if (amount && amount > 0 && toAddress) {
+        await send(toAddress, parseEther(amount.toString()));
+        if (state.status === 'Exception') {
+          throw new Error(`Error minting tokens: ${state.errorMessage}`);
+        }
+
+        toast({ title: `Transfer complete 🎉`, status: 'success', duration: 5000 });
+        helpers.setSubmitting(false);
+      }
+    } catch {
+      toast({ title: `Transfer failed 😬`, description: `${state.errorMessage}`, status: 'error', duration: 5000 });
+      helpers.setSubmitting(false);
+    }
   };
 
   return (
@@ -87,8 +108,8 @@ const Mint: FC = () => {
                 as="span"
                 fontSize="sm"
                 color="blue.500"
-                onClick={() => copyString(testMintContract)}
-              >{`Contract: ${testMintContract}`}</Text>
+                onClick={() => copyString(contractAddress)}
+              >{`Contract: ${contractAddress}`}</Text>
             </Tooltip>
             <Form>
               <Field name="toAddress" validate={() => validateAddress(formData.toAddress)}>
@@ -129,6 +150,7 @@ const Mint: FC = () => {
               </Field>
               <Stack spacing={6} mt={3}>
                 <Button
+                  ref={btnRef}
                   bg="blue.400"
                   color="white"
                   _hover={{

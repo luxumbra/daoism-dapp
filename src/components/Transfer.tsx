@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 import {
   Button,
@@ -9,18 +9,20 @@ import {
   Input,
   Stack,
   Text,
-  Toast,
   Tooltip,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { useEthers, useLookupAddress, useSendTransaction } from '@usedapp/core';
+import { Contract } from '@ethersproject/contracts';
+import { formatUnits, parseEther, parseUnits } from '@ethersproject/units';
+import { useContractFunction, useEthers, useLookupAddress, useTokenBalance } from '@usedapp/core';
 import { Falsy, TypedContract } from '@usedapp/core/dist/esm/src/model/types';
+import { BigNumber } from 'ethers';
 import { Formik, Field, Form, FormikHelpers, FormikState, FieldInputProps } from 'formik';
-// import { useEthers, useSendTransaction } from '@usedapp/core';
 
-import { testTransferContract } from '@daoism/lib/constants';
-import { copyString, validateAddress, validateAmount, slep } from '@daoism/lib/helpers';
+import ERC20_ABI from '@daoism/abis/erc20.abi.json';
+import { contractAddress } from '@daoism/lib/constants';
+import { copyString, validateAddress, validateAmount } from '@daoism/lib/helpers';
 
 export interface FormDataProps {
   contract: Falsy | TypedContract | string | undefined;
@@ -36,16 +38,19 @@ const Transfer: FC = () => {
   const toast = useToast();
   // store the form values
   const [formData, setFormData] = useState<FormDataProps>({
-    contract: testTransferContract,
+    contract: contractAddress,
     toAddress: '',
     amount: 0,
   });
-  const { chainId, library } = useEthers();
+  const [hasBalance, setHasBalance] = useState(false);
+  // const { chainId, library } = useEthers();
   const btnRef = useRef<HTMLButtonElement>(null);
-
-  const { sendTransaction, state: sendState } = useSendTransaction({ transactionName: 'Transfer wETH' });
+  const contract = new Contract(contractAddress, ERC20_ABI);
+  const { account } = useEthers();
+  const { state, send } = useContractFunction(contract as unknown as TypedContract, 'transfer');
   const { ens, isLoading, error: addressError } = useLookupAddress(formData.toAddress);
-
+  const tokenBalance = useTokenBalance(contractAddress, account);
+  const balance = tokenBalance && formatUnits(tokenBalance as BigNumber, 18);
   const bgColor = useColorModeValue('blue.200', 'gray.700');
   const headingColor = useColorModeValue('gray.700', 'blue.200');
 
@@ -53,18 +58,51 @@ const Transfer: FC = () => {
     const { name, value } = e.target;
     const clean: number | string = typeof value === 'number' ? +value : value;
     console.log('handleChange', name, value, clean);
-
-    // if (number)
-    console.log('value', value);
     setFormData((oldData) => ({ ...oldData, [name]: clean }));
   };
 
   const handleSubmit = async (values: FormDataProps, helpers: FormikHelpers<FormDataProps>) => {
-    console.log('values', { values, helpers });
-    toast({ title: `Submitting...${JSON.stringify(formData, null, 2)}`, status: 'info', duration: 5000 });
-    await slep(1000);
-    helpers.setSubmitting(false);
+    helpers.setSubmitting(true);
+    const { toAddress, amount } = formData;
+    console.log({ values, toAddress, amount });
+    console.log('tokenBalance', balance);
+
+    toast({
+      title: `Transfer...${JSON.stringify(formData, null, 2)}`,
+      status: 'info',
+      duration: 5000,
+    });
+
+    try {
+      if (!balance) {
+        throw new Error('No token balance');
+      }
+      if (balance && amount && amount > 0 && toAddress) {
+        await send(toAddress, parseEther(amount.toString()));
+        if (state.status === 'Exception') {
+          throw new Error(`Error transfering tokens: ${state.errorMessage}`);
+        }
+        toast({ title: `Transfer complete 🎉`, status: 'success', duration: 5000 });
+        helpers.setSubmitting(false);
+      }
+    } catch {
+      toast({
+        title: 'Error',
+        description: `${state.errorMessage}`,
+        status: 'error',
+        duration: 5000,
+      });
+      helpers.setSubmitting(false);
+    }
   };
+
+  useEffect(() => {
+    console.log('tokenBalance', balance);
+
+    if (balance && (balance as unknown as number) > 0) {
+      setHasBalance(true);
+    }
+  }, [btnRef, balance]);
 
   return (
     <Flex align="center" justify="center">
@@ -93,7 +131,7 @@ const Transfer: FC = () => {
                 as="span"
                 fontSize="sm"
                 color="blue.500"
-                onClick={() => copyString(testTransferContract)}
+                onClick={() => copyString(contractAddress)}
               >{`Contract: ${formData.contract}`}</Text>
             </Tooltip>
             <Form>
@@ -142,10 +180,10 @@ const Transfer: FC = () => {
                     bg: 'blue.500',
                   }}
                   isLoading={helpers.isSubmitting}
-                  isDisabled={helpers.isSubmitting || !helpers.isValid}
+                  isDisabled={helpers.isSubmitting || !helpers.isValid || !hasBalance}
                   type="submit"
                 >
-                  Submit
+                  {!hasBalance ? 'No token balance' : 'Transfer'}
                 </Button>
                 {helpers.isSubmitting && <Text>Submitting...</Text>}
               </Stack>

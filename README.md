@@ -26,10 +26,11 @@
 - Project was bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 - CSS framework used is Chakra UI
 - Using Chakra UIs Toast for giving feedback to the user or logging errors to the console. Would like to hook into Sentry or HoneyBadger for catching & tracking exceptions.
-- Formik library used for forms & validation
+- `<Mint />` & `<Transfer />` components in place with forms & validation using Formik library. Some error handling on the forms. Transfer / Mint functions still to do + write tests
 - Uses Vercel & Github actions for Continuous Integration
 - Uses `@react/testing-library and Jest - currently only using stubs for the tests but things should be correctly configured for when I get to them)
-- Coverage of tests hooked into ['Coveralls'](https://coveralls.io/)
+- [Coveralls] integration - coverage of tests can be seen on the Coveralls [project page](https://coveralls.io/github/luxumbra/daoism-dapp)
+- Snyk Security integration
 - Set default contract for minting & transfer to WAFFLE (Rinkeby) for Daoism to test.
 
 
@@ -48,40 +49,26 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 
-Build the app for deployment
+Build the app for deployment (good to run before you push your branch for a PR)
 ```bash
 yarn build
 ```
 
-Run the linter
+Run the linter (it runs for the previews but good to run before you make a PR)
 ```bash
 yarn lint
 yarn lint:fix
 ```
 
-Run tests
+Run tests (see above)
 ```bash
 yarn test
 yarn test:watch
 yarn test:coverage
 ```
 
+## Deployed on Vercel
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+All PR previews, develop & prod deploy to [Vercel](https://vercel.com) via Github integration.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

@@ -11,13 +11,13 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:coverage:watch": "jest --watch --coverage",
-    "test:codecov": "./codecov"
+    "test:coverage:watch": "jest --watch --coverage"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.1.2",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@ethersproject/contracts": "^5.6",
     "@ethersproject/units": "^5.6.1",
     "@testing-library/dom": "^8.13.0",
     "@testing-library/jest-dom": "^5.16.4",
