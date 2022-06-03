@@ -1,6 +1,8 @@
 [![Tests Status](https://github.com/luxumbra/daoism-dapp/actions/workflows/main.yml/badge.svg)](https://github.com/luxumbra/daoism-dapp/actions/workflows/main.yml)
 [![Coverage Status](https://coveralls.io/repos/github/luxumbra/daoism-dapp/badge.svg)](https://coveralls.io/github/luxumbra/daoism-dapp)
 [![Known Vulnerabilities](https://snyk.io/test/github/luxumbra/daoism-dapp/badge.svg)](https://snyk.io/test/github/luxumbra/daoism-dapp)
+
+
 ## About the challenge
 > **Daoism Systems Front-end Engineer Technical Challenge**
 >
