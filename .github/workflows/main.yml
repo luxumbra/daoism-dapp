@@ -39,3 +39,5 @@ jobs:
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.github_token }}
+          fail_ci_if_error: false
+
