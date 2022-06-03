@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
-    "build": "next build",
-    "start": "next start",
+    "ui:dev": "cross-env NODE_OPTIONS='--inspect' next dev",
+    "ui:build": "next lint --fix && jest && jest --coverage && next build",
+    "ui:start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "test": "jest",
