@@ -1,4 +1,4 @@
-import { ElementRef, FC, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 
 import {
   Text,
@@ -13,23 +13,34 @@ import {
   DrawerBody,
   HStack,
   Button,
-  DrawerProps,
+  Badge,
 } from '@chakra-ui/react';
+import { useEthers } from '@usedapp/core';
 import { MdAccountBalanceWallet } from 'react-icons/md';
+
+import { getValidChainName } from '@daoism/lib/helpers';
 
 export interface AppDrawerProps {
   headerTitle: string;
   type?: string;
   isValidNetwork?: boolean;
+  closeDrawer?: boolean | undefined;
   children: JSX.Element;
 }
 
-export const AppDrawer: FC<AppDrawerProps> = ({ headerTitle, type, isValidNetwork, children }) => {
+export const AppDrawer: FC<AppDrawerProps> = ({ headerTitle, type, isValidNetwork, closeDrawer, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { chainId } = useEthers();
   const btnRef = useRef<HTMLButtonElement>(null);
   const networkBtnRef = useRef<HTMLButtonElement>(null);
   const mismatchRef = useRef<HTMLParagraphElement>(null);
   const profileIconColor = useColorModeValue('gray.700', 'gray.300');
+
+  useEffect(() => {
+    if (closeDrawer !== undefined && closeDrawer) {
+      onClose();
+    }
+  }, [isOpen, isValidNetwork, closeDrawer, onClose]);
 
   return (
     <>
@@ -57,14 +68,29 @@ export const AppDrawer: FC<AppDrawerProps> = ({ headerTitle, type, isValidNetwor
           onClick={onOpen}
         />
       )}
-      <Drawer placement="right" isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} size="md" colorScheme="blue">
+      <Drawer
+        placement="right"
+        isOpen={isOpen}
+        onClose={onClose}
+        finalFocusRef={btnRef}
+        size="md"
+        colorScheme="blue"
+        blockScrollOnMount
+      >
         <DrawerOverlay bgColor={useColorModeValue('blueGlassAlpha', 'blueGlassAlphaDark')} backdropFilter="blur(7px)" />
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader bgColor={useColorModeValue('blue.300', 'blue.900')} alignItems="center">
-            <Text as="h3" color={useColorModeValue('blue.600', 'blue.100')} my={0}>
-              {headerTitle}
-            </Text>
+            <HStack justify="space-between" pr={6}>
+              <Text as="h3" color={useColorModeValue('blue.600', 'blue.100')} my={0}>
+                {headerTitle}
+              </Text>
+              {chainId && (
+                <Badge colorScheme="green" fontSize="lg" variant="subtle">
+                  {getValidChainName(chainId)}
+                </Badge>
+              )}
+            </HStack>
           </DrawerHeader>
           <DrawerBody
             bgColor={useColorModeValue('blue.200', 'blue.800')}
@@ -81,4 +107,5 @@ export const AppDrawer: FC<AppDrawerProps> = ({ headerTitle, type, isValidNetwor
 AppDrawer.defaultProps = {
   type: 'network',
   isValidNetwork: true,
+  closeDrawer: undefined,
 };

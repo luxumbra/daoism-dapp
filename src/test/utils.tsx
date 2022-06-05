@@ -11,10 +11,9 @@ const ChakraRenderer: FC<{ children: ReactNode }> = ({ children }) => (
   <ChakraProvider theme={DSTheme}>{children}</ChakraProvider>
 );
 
-const customRender = (ui: ReactElement<ChakraProps>, options?: Omit<RenderOptions, 'wrapper'>) =>
+const customRender = (ui: ReactElement) =>
   render(ui, {
     wrapper: ChakraRenderer,
-    ...options,
   });
 
 // eslint-disable-next-line import/no-extraneous-dependencies

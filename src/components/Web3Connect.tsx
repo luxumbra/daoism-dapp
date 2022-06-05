@@ -1,95 +1,74 @@
 import { FC, useEffect, useState } from 'react';
 
-import { HStack, Text, IconButton, useToast } from '@chakra-ui/react';
-import { useConfig, useEthers, useLookupAddress } from '@usedapp/core';
+import { HStack, IconButton } from '@chakra-ui/react';
+import { useConfig, useEthers } from '@usedapp/core';
 import { MdLogin, MdLogout } from 'react-icons/md';
 
 import { NetworkSwitcher } from '@daoism/components/NetworkSwitcher';
 import { Profile } from '@daoism/components/Profile';
-import { getSupportedChains } from '@daoism/lib/helpers';
+import { getSupportedChains, getNetworkValidity, NetworkValidity } from '@daoism/lib/helpers';
 import { useDisplayAccount } from '@daoism/lib/hooks/useDisplayAccount';
-
-export type NetworkValidity = boolean | undefined;
-export const getNetworkValidity = (id: number | undefined, networks: number[] | undefined): NetworkValidity => {
-  const check = () => !!id && networks?.includes(id);
-
-  try {
-    const test = check();
-    return test;
-  } catch (error) {
-    console.log('Network Error:', error);
-
-    return false;
-    // TODO: Add sentry/honeybadger integration
-  }
-};
 
 /**
  * Connects to a Web3 wallet (only Metamask for now) and enables the users profile
  * @returns JSX.Element
  */
 export const Web3Connect: FC = () => {
-  const { active, chainId, account, activateBrowserWallet, deactivate, error } = useEthers();
-  const { ens, isLoading, error: ensError } = useLookupAddress(account);
-  const accountDisplay = useDisplayAccount(account, ens);
+  const { active, chainId, account, activateBrowserWallet, deactivate, error: ethersError } = useEthers();
+  const accountDisplay = useDisplayAccount(account);
   const { readOnlyUrls } = useConfig();
   const supportedChains = getSupportedChains(readOnlyUrls);
+  const [activationError, setActivationError] = useState<string>('');
   const [isValidNetwork, setIsValidNetwork] = useState<NetworkValidity>(false);
-  const toast = useToast();
+  const activateUser = async () => {
+    setActivationError('');
+    activateBrowserWallet();
+  };
 
+  const deactivateUser = async () => {
+    await deactivate();
+    setActivationError('');
+  };
   const toggleConnect = async () => {
     try {
-      if (!account) {
-        activateBrowserWallet();
-        // if (error) {
-        //   toast({
-        //     title: 'Unsupported newtwork',
-        //     description: `Error: ${error.message}`,
-        //     status: 'error',
-        //     duration: 5000,
-        //   });
-        // }
-      } else {
-        deactivate();
-      }
-    } catch (error_) {
-      toast({
-        title: 'Unsupported newtwork',
-        description: `Error activating wallet ${error_}`,
-        status: 'error',
-        duration: 5000,
-      });
+      await (!account ? activateUser() : deactivateUser());
+    } catch {
+      setActivationError('Error activating user');
+      // eslint-disable-next-line no-console
+      console.log('Account toggle error:', { ethersError });
       // TODO: add in Sentry/Honeybadger integration
     }
   };
+
+  try {
+    if (!isValidNetwork && ethersError) {
+      throw new Error("Can't connect to a network that isn't supported");
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log('Web3Connect errors:', { error, ethersError });
+  }
 
   useEffect(() => {
     if (active) {
       setIsValidNetwork(() => getNetworkValidity(chainId, supportedChains));
     }
-  }, [chainId, supportedChains, active, setIsValidNetwork]);
+  }, [chainId, supportedChains, active, setIsValidNetwork, isValidNetwork]);
 
   return (
     <HStack justify="flex-end" px={0}>
-      {!isLoading && account && isValidNetwork && (
+      {active && account !== undefined && activationError.length === 0 && isValidNetwork && (
         <>
-          <Text as="span" fontSize={{ base: 'md', xl: 'sm' }}>
-            {accountDisplay}
-          </Text>
-          <Profile user={account} networks={supportedChains} />
+          {accountDisplay}
+          <Profile user={account} />
         </>
       )}
-      {!isLoading && !isValidNetwork && account && (
-        <NetworkSwitcher isValid={isValidNetwork} networks={supportedChains} />
-      )}
-      {isLoading && account && (
-        <Text as="span" size="xs">
-          Loading account...
-        </Text>
-      )}
+      {!isValidNetwork && active && account && <NetworkSwitcher isValid={isValidNetwork} networks={supportedChains} />}
+
       <IconButton
         icon={account ? <MdLogout /> : <MdLogin />}
         aria-label={account ? 'Logout' : 'Login'}
+        data-testid="connect-button"
         color="inherit"
         colorScheme="ghost"
         fontSize={{ base: '3xl', lg: '3xl' }}

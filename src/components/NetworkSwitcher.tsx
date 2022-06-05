@@ -1,112 +1,53 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
-import { Button, Box, useToast, ToastId, HStack } from '@chakra-ui/react';
+import { Button, Box, Text, HStack, VStack, Spinner } from '@chakra-ui/react';
 import { useEthers } from '@usedapp/core';
 
 import { AppDrawer } from '@daoism/components/AppDrawer';
 import { getValidChainName } from '@daoism/lib/helpers';
 
 interface NetworkSwitcherProps {
-  isValid: boolean | undefined;
-  currentNetwork?: number | undefined;
-  networks: number[] | undefined;
+  isValid?: boolean | undefined;
+  networks?: number[] | undefined;
 }
-export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ isValid, currentNetwork, networks }): JSX.Element => {
+export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ isValid, networks }): JSX.Element => {
   const [isSwitching, setIsSwitching] = useState(false);
-  const { chainId, switchNetwork, error } = useEthers();
-  const toast = useToast();
-  const toastId = 'switch-network';
-  const toastRef = useRef<ToastId>();
-  // console.log('NetworkSwitcher', { isValid, currentNetwork, networks });
-  // console.log('NetworkSwitcher', { chainId, error, isSwitching });
+  const [switched, setSwitched] = useState<boolean>(false);
+  const [toChainId, setToChainId] = useState<number | undefined>();
+  const { chainId, switchNetwork, isLoading, error: ethersError } = useEthers();
 
-  // const createToast = () => {
-  //   toastRef.current = toast({
-  //     id: toastId,
-  //     description: `Switching network...`,
-  //     status: 'info',
-  //     variant: 'subtle',
-  //     duration: null,
-  //   });
-  // };
-
-  const handleNetworkSwitch = async (network: number): Promise<number | undefined> => {
-    const sleep = (ms: number) =>
-      new Promise((resolve) => {
-        setTimeout(resolve, ms);
-      });
-    console.log('handleNetworkSwitch', { network });
-    const currentChain = network;
+  const handleNetworkSwitch = async (toNetwork: number): Promise<void> => {
+    setIsSwitching(true);
+    setToChainId(toNetwork);
 
     try {
-      // if (!isSw
-      await sleep(1000);
-      if (!isSwitching) {
-        setIsSwitching(true);
-        toast({
-          id: toastId,
-          description: `Switching network...`,
-          status: 'info',
-          variant: 'subtle',
-          duration: null,
-        });
-        switchNetwork(network);
-        try {
-          if (currentChain !== chainId) {
-            toast.update(toastId, {
-              description: `Switched to ${getValidChainName(currentChain)}`,
-              status: 'success',
-              duration: 5000,
-            });
-          }
-        } catch (error_) {
-          throw new Error(`Error switching network: ${error_}`);
-        }
-        // return;
+      if (toNetwork !== chainId) {
+        await switchNetwork(toNetwork);
+        setSwitched(true);
       }
 
-      if (currentNetwork === network && toastRef.current) {
+      if (!isLoading) {
         setIsSwitching(false);
-        toast.update(toastRef.current, {
-          description: `Switched to ${network}`,
-          status: 'success',
-          duration: 3000,
-        });
-        // return;
       }
-      toast.update(toastId, { description: `Switched to ${network}`, status: 'success', duration: 3000 });
-      setIsSwitching(false);
-      return chainId;
-    } catch (error_) {
-      setIsSwitching(false);
-      // console.log('chainId after error', chainId, network, error);
 
-      toast.update(toastId, {
-        description: `Error switching network: ${error_}`,
-        status: 'error',
-        duration: 5000,
-      });
-      return chainId;
-    } finally {
-      if (toastRef.current) {
-        toast.update(toastRef.current, { duration: 3000 });
-      }
       setIsSwitching(false);
+    } catch (error) {
+      setIsSwitching(false);
+      setSwitched(false);
+      // eslint-disable-next-line no-console
+      console.log('handleNetworkSwitch error', { ethersError, error });
     }
   };
 
   useEffect(() => {
-    // if (chainId === currentNetwork && toastRef.current) {
-    //   toast.update(toastRef.current, {
-    //     description: `Switched to ${chainId}`,
-    //     status: 'success',
-    //     duration: 3000,
-    //   });
-    // }
-  }, [chainId, currentNetwork, toast]);
+    if (chainId === toChainId && !isSwitching) {
+      setSwitched(true);
+    }
+    setSwitched(false);
+  }, [chainId, isValid, networks, isSwitching, toChainId]);
 
   return (
-    <AppDrawer headerTitle="Change network" isValidNetwork={isValid} type="network">
+    <AppDrawer headerTitle="Change network" isValidNetwork={isValid} type="network" closeDrawer={switched}>
       <Box
         sx={{
           button: {
@@ -129,11 +70,20 @@ export const NetworkSwitcher: FC<NetworkSwitcherProps> = ({ isValid, currentNetw
             </>
           )}
         </HStack>
+        <VStack spacing={2} mt={5}>
+          {isSwitching && toChainId && (
+            <>
+              <Spinner />
+              <Text fontSize="inherit">Switching network to {getValidChainName(toChainId)}</Text>
+            </>
+          )}
+        </VStack>
       </Box>
     </AppDrawer>
   );
 };
 
 NetworkSwitcher.defaultProps = {
-  currentNetwork: 4,
+  isValid: undefined,
+  networks: [1, 4, 137],
 };

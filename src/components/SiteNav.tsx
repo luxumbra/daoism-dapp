@@ -72,7 +72,7 @@ export const MobileMenu: FC = () => {
         justifyContent="center"
         alignItems="center"
         px={0}
-        bgColor={useColorModeValue('yellow.500', 'gray.700')}
+        bgColor={useColorModeValue('gray.200', 'gray.700')}
         opacity={disclosureProps.hidden ? 0 : 1}
         transition="all 0.2s"
         transform={`translateY(${disclosureProps.hidden ? '-100%' : '0'})`}
