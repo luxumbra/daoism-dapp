@@ -18,7 +18,7 @@ export const PageSection: FC<StackProps> = ({ children }) => (
       alignItems="center"
       justifyContent="center"
       bgGradient={useColorModeValue(
-        `linear(0deg, ${DSTheme.colors.gray[400]} -29.22%, ${DSTheme.colors.gray[300]} 107.53%)`,
+        `linear(0deg, ${DSTheme.colors.gray[300]} -29.22%, ${DSTheme.colors.gray[50]} 107.53%)`,
         `linear(0deg, ${DSTheme.colors.dark} -29.22%, ${DSTheme.colors.darkish} 107.53%)`
       )}
       color={useColorModeValue('gray.700', 'gray.300')}

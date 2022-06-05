@@ -4,7 +4,9 @@ import {
   Box,
   Flex,
   Heading,
+  HStack,
   SimpleGrid,
+  Spinner,
   Stat,
   StatLabel,
   StatNumber,
@@ -12,42 +14,34 @@ import {
   Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react';
-import { formatEther, formatUnits } from '@ethersproject/units';
+import { formatEther } from '@ethersproject/units';
 import { useEtherBalance, useToken, useTokenBalance } from '@usedapp/core';
-import { TokenInfo } from '@usedapp/core/dist/esm/src/model/TokenInfo';
 import { BigNumber } from 'ethers';
 
 import { TokenProps } from '@daoism/lib/constants';
-import { getValidChainName } from '@daoism/lib/helpers';
+import { displayBalance, getValidChainName } from '@daoism/lib/helpers';
 
 interface BalanceCardProps {
   token: string;
   user: string;
 }
 function BalanceCard(props: BalanceCardProps) {
-  const [infoLoading, setInfoLoading] = useState<boolean>(false);
+  const [infoLoading, setInfoLoading] = useState<boolean>(true);
   const { token, user } = props;
   const tokenInfo = useToken(token);
   const balance: BigNumber | undefined = useTokenBalance(token, user);
 
-  function displayBalance(num: BigNumber | undefined, info: TokenInfo | undefined) {
-    if (!num) {
-      return { short: '0', full: '0' };
-    }
-    const short = Number.parseInt(formatUnits(num, info?.decimals), 10).toFixed(5);
-    const full = formatUnits(num, info?.decimals);
-    return {
-      short,
-      full,
-    };
-  }
-
   useEffect(() => {
-    if (!balance) {
-      setInfoLoading(true);
+    try {
+      if (user && balance) {
+        setInfoLoading(false);
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('Balance card error', error);
+      setInfoLoading(false);
     }
-    setInfoLoading(false);
-  }, [balance, tokenInfo]);
+  }, [balance, token, tokenInfo, user]);
 
   return (
     <Stat
@@ -75,7 +69,7 @@ function BalanceCard(props: BalanceCardProps) {
             aria-label={`Balance upto to ${tokenInfo?.decimals} decimals`}
           >
             <StatNumber fontSize="2xl" fontWeight="medium">
-              {infoLoading && 'Loading balance...'}
+              {infoLoading && !balance && <Spinner size="md" />}
               {!infoLoading && balance !== undefined && displayBalance(balance, tokenInfo).short}
             </StatNumber>
           </Tooltip>
@@ -93,8 +87,22 @@ export interface BalancesProps {
 }
 
 export default function Balances({ user, network, tokens }: BalancesProps) {
+  const [loading, setLoading] = useState<boolean>(true);
   const networkBalance = useEtherBalance(user, { chainId: network });
   const currentNetworkTokens = tokens.filter((token) => token.chainId === network);
+
+  useEffect(() => {
+    try {
+      if (networkBalance === undefined) {
+        throw new Error("Can't get network balance");
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      // eslint-disable-next-line no-console
+      console.log('Balance error', error);
+    }
+  }, [network, networkBalance, user]);
 
   return (
     <Box w="100%" mx="auto" py={{ base: 2, sm: 4, md: 6 }}>
@@ -102,10 +110,17 @@ export default function Balances({ user, network, tokens }: BalancesProps) {
         <Heading as="h3" color="inherit" mt={0} mb={3}>
           Balances
         </Heading>
-        {networkBalance && (
+        {!loading && networkBalance !== undefined ? (
           <Text>
             Native ({getValidChainName(network)}) balance: {formatEther(networkBalance)}
           </Text>
+        ) : (
+          <HStack>
+            <Text as="span" fontSize="md">
+              Native ({getValidChainName(network)}) balance:
+            </Text>
+            <Spinner />
+          </HStack>
         )}
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 5, lg: 3 }}>
           {currentNetworkTokens &&

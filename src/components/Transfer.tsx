@@ -1,6 +1,4 @@
-import { isExternal } from 'node:util/types';
-
-import { FC, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import {
   Button,
@@ -8,13 +6,11 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  HStack,
   Input,
   Link,
   Stack,
   Text,
   ToastId,
-  ToastProps,
   Tooltip,
   useColorModeValue,
   useToast,
@@ -22,13 +18,14 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { Contract } from '@ethersproject/contracts';
-import { formatUnits, parseEther, parseUnits } from '@ethersproject/units';
-import { useContractFunction, useEthers, useLookupAddress, useTokenBalance } from '@usedapp/core';
+import { formatUnits, parseEther } from '@ethersproject/units';
+import { Rinkeby, useContractFunction, useEthers, useTokenBalance } from '@usedapp/core';
 import { Falsy, TypedContract } from '@usedapp/core/dist/esm/src/model/types';
 import { BigNumber } from 'ethers';
 import { Formik, Field, Form, FormikHelpers, FormikState, FieldInputProps } from 'formik';
 
 import ERC20_ABI from '@daoism/abis/erc20.abi.json';
+import { NetworkSwitcher } from '@daoism/components/NetworkSwitcher';
 import { contractAddress } from '@daoism/lib/constants';
 import { copyString, validateAddress, validateAmount } from '@daoism/lib/helpers';
 
@@ -43,24 +40,24 @@ export interface FormDataProps {
  * @returns JSX.Element
  * */
 const Transfer: FC = () => {
-  const toast = useToast();
-  const toastRef = useRef<ToastId>();
-
   // store the form values
   const [formData, setFormData] = useState<FormDataProps>({
     contract: contractAddress,
     toAddress: '',
     amount: 0,
   });
+  const toast = useToast();
+  const toastRef = useRef<ToastId>();
+  const btnRef = useRef<HTMLButtonElement>(null);
+
   const [hasBalance, setHasBalance] = useState(false);
   // const { chainId, library } = useEthers();
-  const btnRef = useRef<HTMLButtonElement>(null);
   const contract = new Contract(contractAddress, ERC20_ABI);
-  const { account } = useEthers();
+  const { account, chainId } = useEthers();
   const { state, send } = useContractFunction(contract as unknown as TypedContract, 'transfer');
-  const { ens, isLoading, error: addressError } = useLookupAddress(formData.toAddress);
   const tokenBalance = useTokenBalance(contractAddress, account);
   const balance = tokenBalance && formatUnits(tokenBalance as BigNumber, 18);
+  const isRinkeby = chainId === Rinkeby.chainId;
   const bgColor = useColorModeValue('blue.200', 'gray.700');
   const headingColor = useColorModeValue('gray.700', 'blue.200');
 
@@ -75,9 +72,9 @@ const Transfer: FC = () => {
     });
   };
   const updateToast = useCallback(
-    (options: Omit<UseToastOptions, 'id'>) => {
+    (options: Omit<UseToastOptions, 'variant'>) => {
       if (toastRef.current) {
-        toast.update(toastRef.current, { ...options });
+        toast.update(toastRef.current, options);
       }
     },
     [toast]
@@ -92,8 +89,6 @@ const Transfer: FC = () => {
   const handleSubmit = async (values: FormDataProps, helpers: FormikHelpers<FormDataProps>) => {
     const { toAddress, amount } = formData;
     helpers.setSubmitting(true);
-    // console.log({ values, toAddress, amount });
-    // console.log('tokenBalance', balance);
 
     addToast();
 
@@ -101,7 +96,7 @@ const Transfer: FC = () => {
       if (!balance) {
         throw new Error('No token balance');
       }
-      if (balance && amount && amount > 0 && toAddress) {
+      if (balance && amount && amount > 0) {
         await send(toAddress, parseEther(amount.toString()));
         helpers.setSubmitting(false);
       }
@@ -111,12 +106,10 @@ const Transfer: FC = () => {
   };
 
   useEffect(() => {
-    // console.log('tokenBalance', balance);
-
     if (balance && (balance as unknown as number) > 0) {
       setHasBalance(true);
     }
-  }, [btnRef, balance]);
+  }, [balance, setHasBalance]);
 
   useEffect(() => {
     // console.log('state', state.status);
@@ -159,7 +152,6 @@ const Transfer: FC = () => {
             description: `Waiting for confirmations 🕑 `,
             status: 'info',
           });
-          console.log('state', state.transaction, state.receipt);
 
           break;
         }
@@ -191,7 +183,7 @@ const Transfer: FC = () => {
 
   return (
     <Flex align="center" justify="center" data-testid="transfer">
-      <Formik initialValues={formData} onSubmit={handleSubmit}>
+      <Formik initialValues={formData} onSubmit={handleSubmit} validateOnBlur>
         {(helpers) => (
           <Stack
             spacing={4}
@@ -219,59 +211,66 @@ const Transfer: FC = () => {
                 onClick={() => copyString(contractAddress)}
               >{`Contract: ${formData.contract}`}</Text>
             </Tooltip>
-            <Form>
-              <Field name="toAddress" validate={() => validateAddress(formData.toAddress)}>
-                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                {({ field, form }: { field: FieldInputProps<any>; form: FormikState<any> }) => (
-                  <FormControl isInvalid={!!(form.errors.toAddress && form.touched.toAddress)} isRequired>
-                    <FormLabel htmlFor="toAddress">Receiving wallet</FormLabel>
-                    <Tooltip
-                      label="Please ensure to use the correct address 🙏"
-                      aria-label="Recipient address"
-                      hasArrow
-                    >
-                      <Input
-                        {...field}
-                        id="toAddress"
-                        placeholder="0x..."
-                        _placeholder={{ color: 'gray.500' }}
-                        type="text"
-                        value={formData.toAddress}
-                        onChange={handleChange}
-                      />
-                    </Tooltip>
-                    <FormErrorMessage>{helpers.errors.toAddress}</FormErrorMessage>
-                  </FormControl>
-                )}
-              </Field>
-              <Field name="amount" validate={() => validateAmount(formData.amount)}>
-                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                {({ field, form }: { field: FieldInputProps<any>; form: FormikState<any> }) => (
-                  <FormControl id="amount" isInvalid={!!(form.errors.amount && form.touched.amount)} isRequired>
-                    <FormLabel htmlFor="amount">Amount</FormLabel>
-                    <Tooltip label="How many tokens?" aria-label="Amount of tokens to send" hasArrow>
-                      <Input {...field} id="amount" type="number" value={formData.amount} onChange={handleChange} />
-                    </Tooltip>
-                    <FormErrorMessage>{helpers.errors.amount}</FormErrorMessage>
-                  </FormControl>
-                )}
-              </Field>
-              <Stack spacing={6} mt={3}>
-                <Button
-                  ref={btnRef}
-                  bg="blue.400"
-                  color="white"
-                  _hover={{
-                    bg: 'blue.500',
-                  }}
-                  isLoading={helpers.isSubmitting}
-                  isDisabled={helpers.isSubmitting || !helpers.isValid || !hasBalance}
-                  type="submit"
-                >
-                  {!hasBalance ? 'No token balance' : 'Transfer'}
-                </Button>
-              </Stack>
-            </Form>
+            {isRinkeby ? (
+              <Form>
+                <Field name="toAddress" validate={() => validateAddress(formData.toAddress)}>
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                  {({ field, form }: { field: FieldInputProps<any>; form: FormikState<any> }) => (
+                    <FormControl isInvalid={!!(form.errors.toAddress && form.touched.toAddress)} isRequired>
+                      <FormLabel htmlFor="toAddress">Receiving wallet</FormLabel>
+                      <Tooltip
+                        label="Please ensure to use the correct address 🙏"
+                        aria-label="Recipient address"
+                        hasArrow
+                      >
+                        <Input
+                          {...field}
+                          id="toAddress"
+                          placeholder="0x..."
+                          _placeholder={{ color: 'gray.500' }}
+                          type="text"
+                          value={formData.toAddress}
+                          onChange={handleChange}
+                        />
+                      </Tooltip>
+                      <FormErrorMessage>{helpers.errors.toAddress}</FormErrorMessage>
+                    </FormControl>
+                  )}
+                </Field>
+                <Field name="amount" validate={() => validateAmount(formData.amount)}>
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                  {({ field, form }: { field: FieldInputProps<any>; form: FormikState<any> }) => (
+                    <FormControl id="amount" isInvalid={!!(form.errors.amount && form.touched.amount)} isRequired>
+                      <FormLabel htmlFor="amount">Amount</FormLabel>
+                      <Tooltip label="How many tokens?" aria-label="Amount of tokens to send" hasArrow>
+                        <Input {...field} id="amount" type="number" value={formData.amount} onChange={handleChange} />
+                      </Tooltip>
+                      <FormErrorMessage>{helpers.errors.amount}</FormErrorMessage>
+                    </FormControl>
+                  )}
+                </Field>
+                <Stack spacing={6} mt={3}>
+                  <Button
+                    ref={btnRef}
+                    bg="blue.400"
+                    color="white"
+                    _hover={{
+                      bg: 'blue.500',
+                    }}
+                    isLoading={helpers.isSubmitting}
+                    isDisabled={helpers.isSubmitting || !helpers.isValid || !hasBalance}
+                    type="submit"
+                  >
+                    {!hasBalance ? 'No token balance' : 'Transfer'}
+                  </Button>
+                </Stack>
+              </Form>
+            ) : (
+              <VStack>
+                <Text fontSize="inherit">Transfers only supported on Rinkeby</Text>
+                <NetworkSwitcher isValid />
+              </VStack>
+            )}
           </Stack>
         )}
       </Formik>
