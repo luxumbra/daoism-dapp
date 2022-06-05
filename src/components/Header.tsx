@@ -5,7 +5,7 @@ import { Box, HStack, Text, useBreakpointValue, useColorModeValue } from '@chakr
 import { DesktopMenu, MobileMenu } from '@daoism/components/SiteNav';
 
 export const Header: FC = () => {
-  const isMobile = useBreakpointValue({ base: true, sm: false });
+  const isMobile = useBreakpointValue({ base: true, lg: false });
 
   return (
     <Box
@@ -28,6 +28,7 @@ export const Header: FC = () => {
           },
         },
       }}
+      data-testid="header"
     >
       <HStack spacing={0} align="center" justify="space-between" flex="0 0 100%">
         <Box
@@ -39,7 +40,7 @@ export const Header: FC = () => {
           pl={{ base: 3, xl: 5 }}
           zIndex={10}
         >
-          <Text as="span" fontWeight={700} fontSize={{ base: '6vmin', xl: 'inherit' }}>
+          <Text as="span" fontWeight={700} fontSize={{ base: '6vmin', md: '1.2vmax' }}>
             {isMobile ? 'DS' : 'Daoism Systems'}
           </Text>
         </Box>

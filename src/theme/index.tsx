@@ -8,11 +8,11 @@ export const DSTheme = extendTheme({
   styles: {
     global: {
       html: {
-        bgGradient: `linear(0deg, ${DSColors.colors.green[400]} -29.22%, ${DSColors.colors.green[800]} 107.53%)`,
+        bgColor: `${DSColors.colors.gray[800]}`,
         scrollBehavior: 'smooth',
       },
       body: {
-        bgGradient: `linear(0deg, ${DSColors.colors.green[400]} -29.22%, ${DSColors.colors.green[800]} 107.53%)`,
+        bgGradient: `${DSColors.colors.gray[800]}`,
         color: 'white',
         fontFamily: '"Exo 2", sans-serif',
         fontSize: '16px',

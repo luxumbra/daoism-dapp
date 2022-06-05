@@ -32,7 +32,7 @@
   - The token used is called dApp, on Rinkeby. I created it using [ThirdWeb](https://thirdweb.com/). Contract: [0x85DEf9F64609DF4ef0c2b88D0aEC8298C78156F9](https://rinkeby.etherscan.io/address/0x85def9f64609df4ef0c2b88d0aec8298c78156f9). To test the minting, you will need your wallet to be whitelisted and you'll need a balance to be able to use the Transfer function.
 - Uses Vercel & Github actions for Continuous Integration
 - Uses `@react/testing-library and Jest - *currently only using stubs for the tests but things should be correctly configured for when I get to them*
-- [Coveralls] integration - coverage of tests can be seen on the Coveralls [project page](https://coveralls.io/github/luxumbra/daoism-dapp)
+- [Coveralls](https://coveralls.io) integration - coverage of (currently non-existent) tests can be seen on the Coveralls [project page](https://coveralls.io/github/luxumbra/daoism-dapp)
 - Snyk Security integration
 - Set default contract for minting & transfer to WAFFLE (Rinkeby) for Daoism to test.
 

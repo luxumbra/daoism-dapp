@@ -20,9 +20,8 @@ import {
 } from '@chakra-ui/react';
 import { Contract } from '@ethersproject/contracts';
 import { parseEther } from '@ethersproject/units';
-import { useContractFunction, TransactionState } from '@usedapp/core';
+import { Rinkeby, useContractFunction, useEthers } from '@usedapp/core';
 import { TypedContract } from '@usedapp/core/dist/esm/src/model/types';
-import { utils } from 'ethers';
 import { Formik, Field, Form, FormikHelpers, FormikState, FieldInputProps } from 'formik';
 
 import ERC20_ABI from '@daoism/abis/erc20.abi.json';
@@ -30,28 +29,29 @@ import { FormDataProps } from '@daoism/components/Transfer';
 import { contractAddress } from '@daoism/lib/constants';
 import { copyString, validateAddress, validateAmount } from '@daoism/lib/helpers';
 
+import { NetworkSwitcher } from './NetworkSwitcher';
+
 /**
  * TODO: Buidl a custom component that can be used to mint tokens
  * @returns JSX.Element
  * */
 const Mint: FC = () => {
-  const toast = useToast();
-  const toastRef = useRef<ToastId>();
   // store the form values
   const [formData, setFormData] = useState<FormDataProps>({
     contract: contractAddress,
     toAddress: '',
     amount: 0,
   });
+  const toast = useToast();
+  const toastRef = useRef<ToastId>();
   const btnRef = useRef<HTMLButtonElement>(null);
-
-  // const { parseUnits, formatUnits } = utils;
+  const { chainId } = useEthers();
   const contract = new Contract(contractAddress, ERC20_ABI);
-  const { state, send, events, resetState } = useContractFunction(contract as unknown as TypedContract, 'mintTo');
+  const { state, send } = useContractFunction(contract as unknown as TypedContract, 'mintTo');
 
   const bgColor = useColorModeValue('blue.200', 'gray.700');
   const headingColor = useColorModeValue('gray.700', 'blue.200');
-
+  const isRinkeby = chainId === Rinkeby.chainId;
   const addToast = () => {
     toastRef.current = toast({
       id: 'mint-toast',
@@ -74,7 +74,6 @@ const Mint: FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     const clean: number | string = typeof value === 'number' ? +value : value;
-    // console.log('handleChange', name, value, clean);
 
     setFormData((oldData) => ({ ...oldData, [name]: clean }));
   };
@@ -95,7 +94,6 @@ const Mint: FC = () => {
   };
 
   useEffect(() => {
-    // console.log('state', state.status);
     try {
       switch (state.status) {
         case 'Exception': {
@@ -170,7 +168,7 @@ const Mint: FC = () => {
   }, [formData, state, state.status, toast, updateToast]);
 
   return (
-    <Flex align="center" justify="center">
+    <Flex align="center" justify="center" data-testid="mint-component">
       <Formik initialValues={formData} onSubmit={handleSubmit}>
         {(helpers) => (
           <Stack
@@ -199,59 +197,69 @@ const Mint: FC = () => {
                 onClick={() => copyString(contractAddress)}
               >{`Contract: ${contractAddress}`}</Text>
             </Tooltip>
-            <Form>
-              <Field name="toAddress" validate={() => validateAddress(formData.toAddress)}>
-                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                {({ field, form }: { field: FieldInputProps<any>; form: FormikState<any> }) => (
-                  <FormControl isInvalid={!!(form.errors.toAddress && form.touched.toAddress)} isRequired>
-                    <FormLabel htmlFor="toAddress">Receiving wallet</FormLabel>
-                    <Tooltip
-                      label="Please ensure to use the correct address 🙏"
-                      aria-label="Recipient address"
-                      hasArrow
-                    >
-                      <Input
-                        {...field}
-                        id="toAddress"
-                        placeholder="0x..."
-                        _placeholder={{ color: 'gray.500' }}
-                        type="text"
-                        value={formData.toAddress}
-                        onChange={handleChange}
-                      />
-                    </Tooltip>
-                    <FormErrorMessage>{helpers.errors.toAddress}</FormErrorMessage>
-                  </FormControl>
-                )}
-              </Field>
-              <Field name="amount" validate={() => validateAmount(formData.amount)}>
-                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                {({ field, form }: { field: FieldInputProps<any>; form: FormikState<any> }) => (
-                  <FormControl id="amount" isInvalid={!!(form.errors.amount && form.touched.amount)} isRequired>
-                    <FormLabel htmlFor="amount">Amount</FormLabel>
-                    <Tooltip label="How many tokens?" aria-label="Amount of tokens to send" hasArrow>
-                      <Input {...field} id="amount" type="number" value={formData.amount} onChange={handleChange} />
-                    </Tooltip>
-                    <FormErrorMessage>{helpers.errors.amount}</FormErrorMessage>
-                  </FormControl>
-                )}
-              </Field>
-              <Stack spacing={6} mt={3}>
-                <Button
-                  ref={btnRef}
-                  bg="blue.400"
-                  color="white"
-                  _hover={{
-                    bg: 'blue.500',
-                  }}
-                  isLoading={helpers.isSubmitting}
-                  isDisabled={helpers.isSubmitting || !helpers.isValid}
-                  type="submit"
+            {isRinkeby ? (
+              <Form>
+                <Field
+                  name="toAddress"
+                  validate={helpers.touched.toAddress && (() => validateAddress(formData.toAddress))}
                 >
-                  Mint
-                </Button>
-              </Stack>
-            </Form>
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                  {({ field, form }: { field: FieldInputProps<any>; form: FormikState<any> }) => (
+                    <FormControl isInvalid={!!(form.errors.toAddress && form.touched.toAddress)} isRequired>
+                      <FormLabel htmlFor="toAddress">Receiving wallet</FormLabel>
+                      <Tooltip
+                        label="Please ensure to use the correct address 🙏"
+                        aria-label="Recipient address"
+                        hasArrow
+                      >
+                        <Input
+                          {...field}
+                          id="toAddress"
+                          placeholder="0x..."
+                          _placeholder={{ color: 'gray.500' }}
+                          type="text"
+                          value={formData.toAddress}
+                          onChange={handleChange}
+                        />
+                      </Tooltip>
+                      <FormErrorMessage>{helpers.errors.toAddress}</FormErrorMessage>
+                    </FormControl>
+                  )}
+                </Field>
+                <Field name="amount" validate={helpers.touched.amount && (() => validateAmount(formData.amount))}>
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                  {({ field, form }: { field: FieldInputProps<any>; form: FormikState<any> }) => (
+                    <FormControl id="amount" isInvalid={!!(form.errors.amount && form.touched.amount)} isRequired>
+                      <FormLabel htmlFor="amount">Amount</FormLabel>
+                      <Tooltip label="How many tokens?" aria-label="Amount of tokens to send" hasArrow>
+                        <Input {...field} id="amount" type="number" value={formData.amount} onChange={handleChange} />
+                      </Tooltip>
+                      <FormErrorMessage>{helpers.errors.amount}</FormErrorMessage>
+                    </FormControl>
+                  )}
+                </Field>
+                <Stack spacing={6} mt={3}>
+                  <Button
+                    ref={btnRef}
+                    bg="blue.400"
+                    color="white"
+                    _hover={{
+                      bg: 'blue.500',
+                    }}
+                    isLoading={helpers.isSubmitting}
+                    isDisabled={helpers.isSubmitting || !helpers.isValid}
+                    type="submit"
+                  >
+                    Mint
+                  </Button>
+                </Stack>
+              </Form>
+            ) : (
+              <VStack>
+                <Text fontSize="inherit">Minting only supported on Rinkeby</Text>
+                <NetworkSwitcher />
+              </VStack>
+            )}
           </Stack>
         )}
       </Formik>
