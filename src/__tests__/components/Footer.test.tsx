@@ -9,6 +9,7 @@ test('renders the site footer', () => {
   expect(container.firstChild).toMatchInlineSnapshot(`
     <footer
       class="css-1liiab7"
+      data-test="footer-component"
     >
       <div
         class="chakra-stack css-rh6pgv"

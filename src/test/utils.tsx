@@ -3,17 +3,20 @@ import React, { ReactElement, FC, ReactNode } from 'react';
 import { ChakraProps, ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import '@testing-library/jest-dom';
 import { render, RenderOptions } from '@testing-library/react';
-
+import { DAppProvider } from '@usedapp/core';
+import { networksConfig } from '@daoism/lib/constants';
 import 'mutationobserver-shim';
 import { DSTheme } from '@daoism/theme';
 
-const ChakraRenderer: FC<{ children: ReactNode }> = ({ children }) => (
-  <ChakraProvider theme={DSTheme}>{children}</ChakraProvider>
+const AllTheProviders: FC<{ children: ReactNode }> = ({ children }) => (
+  <DAppProvider config={networksConfig}>
+    <ChakraProvider theme={DSTheme}>{children}</ChakraProvider>
+  </DAppProvider>
 );
 
-const customRender = (ui: ReactElement) =>
+const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
   render(ui, {
-    wrapper: ChakraRenderer,
+    wrapper: AllTheProviders, ...options
   });
 
 // eslint-disable-next-line import/no-extraneous-dependencies

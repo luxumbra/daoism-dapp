@@ -5,7 +5,7 @@ import { PageSection } from '@daoism/components/PageSection';
 //
 
 const Home = (): JSX.Element => (
-  <Box className="wrapper">
+  <Box className="wrapper" data-test="home-component">
     <Head>
       <title>Daoism Systems dApp</title>
       <meta name="description" content="An interview challenge set by Daoism Systems 😱" />

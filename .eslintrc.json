@@ -12,20 +12,34 @@
     "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:eslint-comments/recommended",
-    "plugin:jest/recommended",
     "plugin:promise/recommended",
     "plugin:unicorn/recommended",
+    "plugin:jest/recommended",
+    "plugin:testing-library/react",
     "prettier" // Prettier must be last brodie.
   ],
   "plugins": [
     "@typescript-eslint",
     "eslint-comments",
     "jest",
+    "testing-library",
     "promise",
     "import",
     "unicorn",
-    "prettier",
-    "jsx-a11y"
+    "jsx-a11y",
+    "prettier"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "**/__tests__/**/*.[jt]s?(x)",
+        "**/?(*.)+(spec|test).[jt]s?(x)"
+      ],
+      "extends": [
+        "plugin:testing-library/recommended",
+        "plugin:testing-library/react"
+      ]
+    }
   ],
   "rules": {
     "prettier/prettier": "error",
@@ -66,6 +80,7 @@
       }
     ],
     "import/no-extraneous-dependencies": [
+      "off",
       "error",
       { "devDependencies": ["jest.setup.ts", "**/*.test.tsx", "**/*.spec.tsx", "**/*.test.ts", "**/*.spec.ts"] }
     ],
@@ -78,11 +93,10 @@
     "react/react-in-jsx-scope": "off",
     "react/jsx-props-no-spreading": "off",
     "unicorn/prevent-abbreviations": "off",
-    // Airbnb prefers forEach
-    "unicorn/no-array-for-each": "off",
     "unicorn/filename-case": "off",
     // Chakra `toast({duration: number | null}) Toast requires a null value if the toast is infinite.`
     "unicorn/no-null": "warn"
+
   },
   "settings": {
     "import/parsers": {

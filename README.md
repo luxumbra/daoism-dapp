@@ -3,7 +3,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/luxumbra/daoism-dapp/badge.svg)](https://snyk.io/test/github/luxumbra/daoism-dapp)
 
 
-## About the challenge
+## The challenge
 > **Daoism Systems Front-end Engineer Technical Challenge**
 >
 > This technical challenge will evaluate:
@@ -14,7 +14,7 @@
 >
 > The applicant will be tasked with the creation of a simple React app that connects to a Metamask wallet and calls a Solidity contract function with the help of useDapp hook.
 
-## Requirements
+### Requirements
 - [X] a <Profile /> component should either display a wallet address and a token balance if the user is connected to the wallet, or display a "connect to wallet" button
 - [X] a <Transfer /> component that contains a form with 2 inputs: "to" (address) and "amount" that allows for a token to be sent to the specified address
 - [X] a <Mint /> component that contains a form with 2 inputs: "to" (address) and "amount" that allows generating tokens for the set address
@@ -36,9 +36,12 @@ Can be viewed at https://daoism.luxumbra.dev
 - [Coveralls](https://coveralls.io) integration - coverage of (currently non-existent) tests can be seen on the Coveralls [project page](https://coveralls.io/github/luxumbra/daoism-dapp)
 - Snyk Security integration
 
+### Issues I had
+I have not used testing libraries before and *really* wanted to take this opportunity to learn a skill I have not gotten to learning yet. I ran into issues with even the simplest test not passing in most files - I am pretty sure it is a typescript / jest config issue.
 
+@ssuvorov, Thanks for the opportunity to do this. Successful or not in my application, the process has been great and while trying to get some bonus points, I have fallen down a new rabbithole :rabbit: and look forward to seeing my coverage go from red to green. :green_heart:
 
-## Getting Started
+## Getting started
 
 First, install the things:
 

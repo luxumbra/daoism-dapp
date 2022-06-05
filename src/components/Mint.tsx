@@ -168,7 +168,7 @@ const Mint: FC = () => {
   }, [formData, state, state.status, toast, updateToast]);
 
   return (
-    <Flex align="center" justify="center" data-testid="mint-component">
+    <Flex align="center" justify="center" data-test="mint-component">
       <Formik initialValues={formData} onSubmit={handleSubmit}>
         {(helpers) => (
           <Stack

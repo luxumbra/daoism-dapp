@@ -182,7 +182,7 @@ const Transfer: FC = () => {
   }, [formData, state, state.status, toast, updateToast]);
 
   return (
-    <Flex align="center" justify="center" data-testid="transfer">
+    <Flex align="center" justify="center" data-test="transfer-component">
       <Formik initialValues={formData} onSubmit={handleSubmit} validateOnBlur>
         {(helpers) => (
           <Stack
