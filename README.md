@@ -25,16 +25,17 @@
 - [X] any token can be used or 0x9ed2135850920ba65566d010b947b49e88651675
 
 ### Solution
+Can be viewed at https://daoism.luxumbra.dev
 - Project was bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 - CSS framework used is Chakra UI
 - Using Chakra UIs Toast for giving feedback to the user or logging errors to the console. Would like to hook into Sentry or HoneyBadger for catching & tracking exceptions.
 - `<Mint />` & `<Transfer />` components in place with forms & validation using Formik library.
-  - The token used is called dApp, on Rinkeby. I created it using [ThirdWeb](https://thirdweb.com/). Contract: [0x85DEf9F64609DF4ef0c2b88D0aEC8298C78156F9](https://rinkeby.etherscan.io/address/0x85def9f64609df4ef0c2b88d0aec8298c78156f9). To test the minting, you will need your wallet to be whitelisted and you'll need a balance to be able to use the Transfer function.
+  - The token used is called dApp, on Rinkeby. I created it using [ThirdWeb](https://thirdweb.com/). Contract: [0x85DEf9F64609DF4ef0c2b88D0aEC8298C78156F9](https://rinkeby.etherscan.io/address/0x85def9f64609df4ef0c2b88d0aec8298c78156f9).
 - Uses Vercel & Github actions for Continuous Integration
 - Uses `@react/testing-library and Jest - *currently only using stubs for the tests but things should be correctly configured for when I get to them*
 - [Coveralls](https://coveralls.io) integration - coverage of (currently non-existent) tests can be seen on the Coveralls [project page](https://coveralls.io/github/luxumbra/daoism-dapp)
 - Snyk Security integration
-- Set default contract for minting & transfer to WAFFLE (Rinkeby) for Daoism to test.
+
 
 
 ## Getting Started
@@ -52,8 +53,8 @@ yarn ui:dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 
-### Build the app for deployment
-Good to run before you push your branch for a PR as this will lint the project, run tests and give coverage feedback before running the build.
+### Run tests & build
+Good to run before pushing for a PR as this will lint the project, run tests and give coverage feedback before running the build.
 
 ```bash
 yarn ui:build
@@ -75,5 +76,3 @@ yarn test:coverage
 
 ## Deployed on Vercel
 All PR previews, develop & prod deploy to [Vercel](https://vercel.com) via Github integration.
-
-Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
