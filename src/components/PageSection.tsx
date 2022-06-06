@@ -6,7 +6,7 @@ import { DSTheme } from '@daoism/theme';
 //
 
 export const PageSection: FC<StackProps> = ({ children }) => (
-  <Box as="main" display="flex" flexFlow="column nowrap" w="full">
+  <Box as="main" display="flex" flexFlow="column nowrap" w="full" data-testid="pageSection-component">
     <Box
       as="section"
       display="flex"

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { render } from '@testing-library/react';
 
 import { Footer } from '@daoism/components/Footer';
@@ -9,6 +7,7 @@ test('renders the site footer', () => {
   expect(container.firstChild).toMatchInlineSnapshot(`
     <footer
       class="css-1liiab7"
+      data-testid="footer-component"
     >
       <div
         class="chakra-stack css-rh6pgv"
