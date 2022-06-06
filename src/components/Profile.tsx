@@ -42,7 +42,7 @@ export const Profile: FC<ProfileProps> = ({ user }) => {
   }, [chainId, supportedChains, setIsValidNetwork, active]);
 
   return (
-    <AppDrawer type="profile" isValidNetwork headerTitle={`${userAccountString}`}>
+    <AppDrawer type="profile" isValidNetwork headerTitle={`${userAccountString}`} data-test="profile-component">
       <Box>
         <NetworkSwitcher networks={supportedChains} />
         <Box>

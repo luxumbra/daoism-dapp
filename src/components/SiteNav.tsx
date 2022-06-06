@@ -28,6 +28,7 @@ export const HeaderTools: FC = () => {
       position={{ base: 'fixed', xl: 'relative' }}
       top={{ base: '10%', xl: 'initial' }}
       right={{ base: 5, xl: 'initial' }}
+      data-testid="header-tools"
     >
       <IconButton
         icon={toggleIcon}
@@ -77,6 +78,7 @@ export const MobileMenu: FC = () => {
         transition="all 0.2s"
         transform={`translateY(${disclosureProps.hidden ? '-100%' : '0'})`}
         zIndex={0}
+        data-testid="mobile-menu"
       >
         <VStack as="menu" className="mobile-nav" spacing={8} px={0} height="auto">
           <ChakraNextLink href="/">Home</ChakraNextLink>

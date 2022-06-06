@@ -1,13 +1,11 @@
 {
+  "root": true,
   "env": {
     "browser": true,
-    "es2021": true,
-    "node": true,
-    "jest": true
+    "node": true
   },
+  "parser": "@typescript-eslint/parser",
   "extends": [
-    "next",
-    "next/core-web-vitals",
     "airbnb",
     "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",
@@ -17,16 +15,7 @@
     "plugin:unicorn/recommended",
     "prettier" // Prettier must be last brodie.
   ],
-  "plugins": [
-    "@typescript-eslint",
-    "eslint-comments",
-    "jest",
-    "promise",
-    "import",
-    "unicorn",
-    "prettier",
-    "jsx-a11y"
-  ],
+  "plugins": ["@typescript-eslint", "eslint-comments", "jest", "promise", "import", "unicorn", "jsx-a11y", "prettier"],
   "rules": {
     "prettier/prettier": "error",
     "@typescript-eslint/no-unused-vars": "warn",
@@ -36,15 +25,11 @@
     "import/no-default-export": "off",
     "no-use-before-define": "off",
     "no-console": "warn",
-    "no-unused-expressions": [
-      "error",
-      {"allowTernary": true}
-    ],
+    "no-unused-expressions": ["error", { "allowTernary": true }],
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-use-before-define": [
-      "error"
-    ],
+    "@typescript-eslint/no-use-before-define": ["error"],
     "import/extensions": "off",
+    "import/no-import-module-exports": "off",
     "import/no-unresolved": "error",
     "import/order": [
       "error",
@@ -82,14 +67,12 @@
     "unicorn/no-array-for-each": "off",
     "unicorn/filename-case": "off",
     // Chakra `toast({duration: number | null}) Toast requires a null value if the toast is infinite.`
-    "unicorn/no-null": "warn"
+    "unicorn/no-null": "warn",
+    "unicorn/prefer-module": "off"
   },
   "settings": {
     "import/parsers": {
-      "@typescript-eslint/parser": [
-        ".ts",
-        ".tsx"
-      ]
+      "@typescript-eslint/parser": [".ts", ".tsx"]
     },
     "import/resolver": {
       "typescript": {
