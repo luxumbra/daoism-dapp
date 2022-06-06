@@ -2,7 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/luxumbra/daoism-dapp/badge.svg)](https://coveralls.io/github/luxumbra/daoism-dapp)
 [![Known Vulnerabilities](https://snyk.io/test/github/luxumbra/daoism-dapp/badge.svg)](https://snyk.io/test/github/luxumbra/daoism-dapp)
 
-## About the challenge
+## The challenge
 
 > **Daoism Systems Front-end Engineer Technical Challenge**
 >
@@ -15,7 +15,7 @@
 >
 > The applicant will be tasked with the creation of a simple React app that connects to a Metamask wallet and calls a Solidity contract function with the help of useDapp hook.
 
-## Requirements
+### Requirements
 
 - [x] a <Profile /> component should either display a wallet address and a token balance if the user is connected to the wallet, or display a "connect to wallet" button
 - [x] a <Transfer /> component that contains a form with 2 inputs: "to" (address) and "amount" that allows for a token to be sent to the specified address
@@ -28,18 +28,25 @@
 
 ### Solution
 
+Can be viewed at https://daoism.luxumbra.dev
+
 - Project was bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 - CSS framework used is Chakra UI
 - Using Chakra UIs Toast for giving feedback to the user or logging errors to the console. Would like to hook into Sentry or HoneyBadger for catching & tracking exceptions.
 - `<Mint />` & `<Transfer />` components in place with forms & validation using Formik library.
-  - The token used is called dApp, on Rinkeby. I created it using [ThirdWeb](https://thirdweb.com/). Contract: [0x85DEf9F64609DF4ef0c2b88D0aEC8298C78156F9](https://rinkeby.etherscan.io/address/0x85def9f64609df4ef0c2b88d0aec8298c78156f9). To test the minting, you will need your wallet to be whitelisted and you'll need a balance to be able to use the Transfer function.
+  - The token used is called dApp, on Rinkeby. I created it using [ThirdWeb](https://thirdweb.com/). Contract: [0x85DEf9F64609DF4ef0c2b88D0aEC8298C78156F9](https://rinkeby.etherscan.io/address/0x85def9f64609df4ef0c2b88d0aec8298c78156f9).
 - Uses Vercel & Github actions for Continuous Integration
 - Uses `@react/testing-library and Jest - _currently only using stubs for the tests but things should be correctly configured for when I get to them_
 - [Coveralls](https://coveralls.io) integration - coverage of (currently non-existent) tests can be seen on the Coveralls [project page](https://coveralls.io/github/luxumbra/daoism-dapp)
 - Snyk Security integration
-- Set default contract for minting & transfer to WAFFLE (Rinkeby) for Daoism to test.
 
-## Getting Started
+### Issues I had
+
+I have not used testing libraries before and _really_ wanted to take this opportunity to learn an important skill I have not gotten to learning yet. I ran into issues with even the simplest test not passing in most files - ~~I am pretty sure it is a typescript / jest config issue~~ I spent hours trawling SO and googling for solutions and turns out NextJS can be a pain when testing ESM. A friend took a look at my config, couldn't see any issues and suggested trying Vitejs. So I stripped out NextJS last night and the app now uses Vite. Tests now run without issue but due to my fruitless rabbithole of NextJS & Jest issues I have not written any meaningful tests...yet.
+
+@ssuvorov, Thanks for the opportunity to do this. Successful or not in my application, the process has been great and while trying to get some bonus points, I have fallen down a new rabbithole :rabbit: and look forward to seeing my coverage go from red to green. :green_heart:
+
+## Getting started
 
 First, install the things:
 
@@ -55,9 +62,9 @@ yarn ui:dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Build the app for deployment
+### Run tests & build
 
-Good to run before you push your branch for a PR as this will lint the project, run tests and give coverage feedback before running the build.
+Good to run before pushing for a PR as this will lint the project, run tests and give coverage feedback before running the build.
 
 ```bash
 yarn ui:build
@@ -83,5 +90,3 @@ yarn test:coverage
 ## Deployed on Vercel
 
 All PR previews, develop & prod deploy to [Vercel](https://vercel.com) via Github integration.
-
-Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

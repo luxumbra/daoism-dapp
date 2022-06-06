@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import MatchMediaMock from 'jest-matchmedia-mock';
 
 import App from '@daoism/App';
-import { render } from '@daoism/test/utils';
+import { render } from '@daoism/test/test-utils';
 
 let matchMedia: MatchMediaMock;
 describe('App', () => {

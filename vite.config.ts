@@ -2,7 +2,7 @@ import path, {resolve} from "path";
 import { defineConfig } from "vite";
 import packageJson from "./package.json";
 import react from "@vitejs/plugin-react";
-import legacy from '@vitejs/plugin-legacy'
+// import legacy from '@vitejs/plugin-legacy'
 
 
 const getPackageName = () => {
@@ -52,8 +52,5 @@ module.exports = defineConfig({
   },
   plugins: [
     react(),
-    legacy({
-      targets: ['defaults', 'not IE 11']
-    }),
   ],
 });

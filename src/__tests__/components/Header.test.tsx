@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import MatchMediaMock from 'jest-matchmedia-mock';
 
 import { Header } from '@daoism/components/Header';
-import { render } from '@daoism/test/utils';
+import { render } from '@daoism/test/test-utils';
 
 let matchMedia: MatchMediaMock;
 describe('Header', () => {
