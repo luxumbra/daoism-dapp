@@ -28,7 +28,7 @@ export const Header: FC = () => {
           },
         },
       }}
-      data-testid="header"
+      data-testid="header-component"
     >
       <HStack spacing={0} align="center" justify="space-between" flex="0 0 100%">
         <Box

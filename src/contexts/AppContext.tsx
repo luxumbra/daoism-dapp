@@ -1,5 +1,3 @@
-
-
 export type Maybe<T> = T | null;
 
 export type AppContextType = {
@@ -7,5 +5,4 @@ export type AppContextType = {
   userEns: Maybe<string>;
   chainId: Maybe<string>;
   connected: boolean;
-
-}
+};

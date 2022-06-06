@@ -56,7 +56,7 @@ export const Web3Connect: FC = () => {
   }, [chainId, supportedChains, active, setIsValidNetwork, isValidNetwork]);
 
   return (
-    <HStack justify="flex-end" px={0}>
+    <HStack justify="flex-end" px={0} data-testid="web3connect-component">
       {active && account !== undefined && activationError.length === 0 && isValidNetwork && (
         <>
           {accountDisplay}
