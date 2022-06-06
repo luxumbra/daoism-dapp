@@ -20,7 +20,7 @@ const App: FC = () => (
       <Header />
       <PageSection>
         <Box maxW="3xl">
-          <Text as="h1" color="inherit">
+          <Text as="h1" color="inherit" data-testid="landing-title">
             Daoism Systems Challenge
           </Text>
         </Box>

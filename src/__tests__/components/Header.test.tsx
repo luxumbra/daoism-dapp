@@ -18,12 +18,6 @@ describe('Header', () => {
 
   const Component = <Header />;
 
-  // it('should render Connect button correctly', () => {
-  //   const { queryByTestId } = render(Component);
-  //   const web3 = queryByTestId('web3connect-component');
-  //   expect(web3).toBeInTheDocument();
-  // });
-
   it('renders the site header', () => {
     const { container } = render(Component);
     expect(container).toMatchInlineSnapshot(`
