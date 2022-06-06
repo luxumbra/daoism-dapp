@@ -2,6 +2,8 @@ import path, {resolve} from "path";
 import { defineConfig } from "vite";
 import packageJson from "./package.json";
 import react from "@vitejs/plugin-react";
+import legacy from '@vitejs/plugin-legacy'
+
 
 const getPackageName = () => {
   return packageJson.name;
@@ -48,5 +50,10 @@ module.exports = defineConfig({
       fileName: (format) => fileName[format],
     },
   },
-  plugins: [react()],
+  plugins: [
+    react(),
+    legacy({
+      targets: ['defaults', 'not IE 11']
+    }),
+  ],
 });
