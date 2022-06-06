@@ -4,8 +4,8 @@ module.exports = {
   clearMocks: true,
   globals: {
     'ts-jest': {
-      tsConfigFile: 'tsconfig.json',
-      enableTsDiagnostics: true,
+      tsconfig: 'tsconfig.json',
+      diagnostics: true,
     },
   },
   moduleFileExtensions: ['ts', 'tsx', 'js'],

@@ -74,24 +74,7 @@ describe('Header', () => {
             <div
               class="css-x8c2x7"
               data-testid="mobile-menu"
-            >
-              <menu
-                class="chakra-stack mobile-nav css-180oz2r"
-              >
-                <a
-                  class="chakra-link css-f4h6uy"
-                  href="/"
-                >
-                  Home
-                </a>
-                <a
-                  class="chakra-link css-f4h6uy"
-                  href="/about"
-                >
-                  About
-                </a>
-              </menu>
-            </div>
+            />
           </div>
         </header>
         <span

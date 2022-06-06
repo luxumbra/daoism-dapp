@@ -80,10 +80,10 @@ export const MobileMenu: FC = () => {
         zIndex={0}
         data-testid="mobile-menu"
       >
-        <VStack as="menu" className="mobile-nav" spacing={8} px={0} height="auto">
+        {/* <VStack as="menu" className="mobile-nav" spacing={8} px={0} height="auto">
           <ChakraNextLink href="/">Home</ChakraNextLink>
           <ChakraNextLink href="/about">About</ChakraNextLink>
-        </VStack>
+        </VStack> */}
       </Box>
       {disclosureProps.hidden ? undefined : <HeaderTools />}
     </>
@@ -105,8 +105,8 @@ export const DesktopMenu: FC = () => {
         zIndex={9}
         data-testid="sitenav"
       >
-        <ChakraNextLink href="/">Home</ChakraNextLink>
-        <ChakraNextLink href="/about">About</ChakraNextLink>
+        {/* <ChakraNextLink href="/">Home</ChakraNextLink>
+        <ChakraNextLink href="/about">About</ChakraNextLink> */}
       </HStack>
       <HeaderTools />
     </>

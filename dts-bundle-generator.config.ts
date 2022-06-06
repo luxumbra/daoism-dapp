@@ -6,7 +6,7 @@ const getPackageName = () => packageJson.name;
 const config = {
   entries: [
     {
-      filePath: './src/index.ts',
+      filePath: './src/index.tsx',
       outFile: `./dist/${getPackageName()}.d.ts`,
       noCheck: false,
     },
