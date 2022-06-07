@@ -44,7 +44,7 @@ module.exports = defineConfig({
       }
     },
     lib: {
-      entry: path.resolve(root, "index.tsx"),
+      entry: path.resolve(root, "index.ts"),
       name: getPackageNameCamelCase(),
       formats: ["es", "cjs", "iife"],
       fileName: (format) => fileName[format],

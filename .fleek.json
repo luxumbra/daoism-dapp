@@ -1,0 +1,14 @@
+{
+  "site": {
+    "id": "4185e354-a3a0-4227-a82c-a43d9a2213ae",
+    "team": "luxumbra-team",
+    "platform": "ipfs",
+    "source": "ipfs",
+    "name": "dawn-sun-1231"
+  },
+  "build": {
+    "baseDir": "",
+    "publicDir": "dist",
+    "rootDir": ""
+  }
+}

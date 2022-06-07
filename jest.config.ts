@@ -6,6 +6,7 @@ module.exports = {
     'ts-jest': {
       tsconfig: 'tsconfig.json',
       diagnostics: true,
+      isolatedModules: true,
     },
   },
   moduleFileExtensions: ['ts', 'tsx', 'js'],
@@ -20,4 +21,3 @@ module.exports = {
   modulePathIgnorePatterns: ['./dist/', './test/mocks.ts'],
   coveragePathIgnorePatterns: ['./test/mocks.ts'],
 };
-export {};

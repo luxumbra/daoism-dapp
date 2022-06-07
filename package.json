@@ -16,12 +16,12 @@
     "test": "jest --runInBand",
     "test:watch": "jest --watch",
     "test:coverage": "jest --runInBand --coverage",
-    "lint:scripts:fix": "eslint . --ext .tsx,.ts,.js,.js --fix",
     "lint:scripts": "eslint . --ext .tsx,.ts,.js,.js",
+    "lint:scripts:fix": "eslint . --ext .tsx,.ts,.js,.js --fix",
     "lint:styles": "stylelint ./**/*.{css,scss}",
     "format:scripts": "prettier . --write",
     "format:styles": "stylelint ./**/*.{css,scss} --fix",
-    "format": "npm run format:scripts && npm run format:styles",
+    "format": "yarn format:scripts && yarn format:styles",
     "prepare": "husky install && husky add .husky/pre-commit 'npx lint-staged' && git add .husky/pre-commit"
   },
   "dependencies": {
