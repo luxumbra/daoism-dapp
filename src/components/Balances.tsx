@@ -21,11 +21,11 @@ import { BigNumber } from 'ethers';
 import { TokenProps } from '@daoism/lib/constants';
 import { displayBalance, getValidChainName } from '@daoism/lib/helpers';
 
-interface BalanceCardProps {
+export interface BalanceCardProps {
   token: string;
   user: string;
 }
-function BalanceCard(props: BalanceCardProps) {
+export function BalanceCard(props: BalanceCardProps) {
   const [infoLoading, setInfoLoading] = useState<boolean>(true);
   const { token, user } = props;
   const tokenInfo = useToken(token);

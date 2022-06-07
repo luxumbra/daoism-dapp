@@ -52,7 +52,16 @@
     ],
     "import/no-extraneous-dependencies": [
       "error",
-      { "devDependencies": ["jest.setup.ts", "**/*.test.tsx", "**/*.spec.tsx", "**/*.test.ts", "**/*.spec.ts"] }
+      {
+        "devDependencies": [
+          "jest.setup.ts",
+          "**/test-utils.tsx",
+          "**/*.test.tsx",
+          "**/*.spec.tsx",
+          "**/*.test.ts",
+          "**/*.spec.ts"
+        ]
+      }
     ],
     "react/function-component-definition": [
       "error",
