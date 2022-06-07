@@ -21,3 +21,4 @@ module.exports = {
   modulePathIgnorePatterns: ['./dist/', './test/mocks.ts'],
   coveragePathIgnorePatterns: ['./test/mocks.ts'],
 };
+export { }

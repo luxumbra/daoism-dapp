@@ -11,8 +11,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      FLEEK_API_KEY: process.env.FLEEK_API_KEY
     steps:
       - uses: actions/checkout@v3
+        with:
+          github-token: ${{ secrets.github_token }}
       - name: Ensure yarn is installed
         run: npm i -g yarn
       - name: Install deps
@@ -21,14 +25,16 @@ jobs:
         run: yarn ui:build
   deploy:
     runs-on: ubuntu-latest
+    env:
+      FLEEK_API_KEY: process.env.FLEEK_API_KEY
     name: A job to deploy the app to Fleek
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - name: Deploy site
         id: deploy
         uses: fleekhq/action-deploy@v1
         with:
           apiKey: ${{ secrets.FLEEK_API_KEY }}
-          workDir: 'dist'
+          github-token: ${{ secrets.github_token }}
       - name: Get the deploy url
         run: echo "Deploy url is ${{ steps.deploy.outputs.deployUrl }}"
