@@ -56,16 +56,18 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    env:
-      FLEEK_API_KEY: process.env.FLEEK_API_KEY
     name: Deploy app to Fleek
     steps:
       - uses: actions/checkout@v3
-      - name: Deploy site
+        with:
+          github-token: ${{ secrets.github_token }}
+      - name: Run the deploy action
         id: deploy
         uses: fleekhq/action-deploy@v1
         with:
           apiKey: ${{ secrets.FLEEK_API_KEY }}
-          github-token: ${{ secrets.github_token }}
+          workDir: './dist'
       - name: Get the deploy url
         run: echo "Deploy url is ${{ steps.deploy.outputs.deployUrl }}"
+      - name: Great success
+        run: echo "All jobs done. 🎉"
