@@ -7,8 +7,8 @@
     "name": "dawn-sun-1231"
   },
   "build": {
-    "baseDir": "",
-    "publicDir": "dist",
-    "rootDir": ""
+    "baseDir": ".",
+    "publicDir": "/dist",
+    "rootDir": "/src"
   }
 }
