@@ -1,0 +1,25 @@
+name: CI - Build
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          github-token: ${{ secrets.github_token }}
+      - name: Ensure yarn is installed 👀
+        run: npm i -g yarn
+      - name: Install deps 🚲
+        run: yarn
+      - name: Build & bundle 🏗️
+        run: yarn ui:build
+      - name: Finished! 🎉
+        run: echo "You didn't break the build! Great success!"
