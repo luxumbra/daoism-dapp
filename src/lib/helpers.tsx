@@ -81,13 +81,12 @@ export const getSupportedChains = (chains: NodeUrls | undefined) => {
  *
  * // TODO: check for ens address in toAddress
  * @param address
- * @returns Promise<string | undefined | unknown>
+ * @returns string | undefined
  */
 
-export const validateAddress = async (address: string | undefined): Promise<string | undefined | unknown> => {
-  let err;
+export const validateAddress = (address: string | undefined): string | undefined => {
+  let err: string | undefined;
   try {
-    await slep(200);
     if (!address) {
       err = 'Address is required';
     }

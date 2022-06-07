@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# IDE
+.vscode
+
 # testing
 /coverage
 
@@ -38,5 +41,3 @@ yarn-error.log*
 # Sentry
 .sentryclirc
 
-codecov
-codecov.*

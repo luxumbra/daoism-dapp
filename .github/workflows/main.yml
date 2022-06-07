@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI - Test, build, deploy
 
 # Controls when the workflow will run
 on:
@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  tests:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     env:
@@ -30,7 +30,7 @@ jobs:
       - name: Install the things
         run: yarn
       - name: Lint your messy code 🤖
-        run: yarn lint:fix
+        run: yarn lint:scripts && yarn lint:styles && yarn format
       - name: Run tests
         run: yarn test
       - name: Test coverage
@@ -39,3 +39,26 @@ jobs:
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.github_token }}
+  build-deploy:
+    runs-on: ubuntu-latest
+    env:
+      FLEEK_API_KEY: process.env.FLEEK_API_KEY
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          github-token: ${{ secrets.github_token }}
+      - name: Ensure yarn is installed 👀
+        run: npm i -g yarn
+      - name: Install deps 🚲
+        run: yarn
+      - name: Build & bundle 🏗️
+        run: yarn ui:build
+      - name: Run the deploy action 🚀
+        id: deploy
+        uses: fleekhq/action-deploy@v1
+        with:
+          apiKey: ${{ secrets.FLEEK_API_KEY }}
+      - name: Get the deploy url ✅
+        run: echo "Deploy url is ${{ steps.deploy.outputs.deployUrl }}"
+      - name: Finished! 🎉
+        run: echo "All jobs done. Great success!"
