@@ -65,7 +65,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Run build
 
-The production build from Vite is taking a while and produces a pretty heavy bundle.
+The build runs `tsc` to lint the code before running `vite build` to bundle the app in `esm`, `cjs` & `iife` formats.
+The production build from Vite is taking a while for such a smol project.
 
 ```bash
 yarn ui:build
