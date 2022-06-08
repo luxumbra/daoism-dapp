@@ -26,5 +26,6 @@
     "types": ["vite/client", "node", "jest"]
   },
   "include": ["src"],
-  "exclude": ["**/*.test.ts", "node_modules", "test/**", ".history/**"]
+  "exclude": ["**/*.test.ts", "node_modules", "test/**", ".history/**"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
