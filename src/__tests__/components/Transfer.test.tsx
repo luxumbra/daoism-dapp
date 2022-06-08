@@ -24,7 +24,7 @@ describe('Transfer Component', () => {
           data-testid="transfer"
         >
           <div
-            class="chakra-stack css-z0h7za"
+            class="chakra-stack css-t0jgq5"
           >
             <h4
               class="chakra-text css-1ae6wvg"
@@ -47,8 +47,13 @@ describe('Transfer Component', () => {
               <div
                 class="chakra-stack css-2nt6bn"
               >
+                <span
+                  class="chakra-text css-ozqb1i"
+                >
+                  r0ng network
+                </span>
                 <button
-                  class="chakra-button css-16d5lih"
+                  class="chakra-button css-44d4le"
                   type="button"
                 >
                   Change network

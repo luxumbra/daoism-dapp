@@ -42,7 +42,7 @@ describe('Header', () => {
               aria-controls="disclosure-:r0:"
               aria-expanded="false"
               aria-label="Open menu"
-              class="chakra-button css-1ub0glv"
+              class="chakra-button css-fgj4d2"
               type="button"
             >
               <svg

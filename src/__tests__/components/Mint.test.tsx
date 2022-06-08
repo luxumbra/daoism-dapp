@@ -27,7 +27,7 @@ describe('Mint Component', () => {
           data-testid="mint-component"
         >
           <div
-            class="chakra-stack css-z0h7za"
+            class="chakra-stack css-t0jgq5"
           >
             <h4
               class="chakra-heading css-yo6ywq"
@@ -50,8 +50,13 @@ describe('Mint Component', () => {
               <div
                 class="chakra-stack css-2nt6bn"
               >
+                <span
+                  class="chakra-text css-ozqb1i"
+                >
+                  r0ng network
+                </span>
                 <button
-                  class="chakra-button css-16d5lih"
+                  class="chakra-button css-44d4le"
                   type="button"
                 >
                   Change network
