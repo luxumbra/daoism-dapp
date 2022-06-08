@@ -40,14 +40,16 @@ export const Web3Connect: FC = () => {
     }
   };
 
-  try {
-    if (!isValidNetwork && ethersError) {
-      throw new Error("Can't connect to a network that isn't supported");
+  useEffect(() => {
+    try {
+      if (!isValidNetwork && ethersError) {
+        throw new Error("Can't connect to a network that isn't supported");
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('Web3Connect errors:', { error, ethersError });
     }
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log('Web3Connect errors:', { error, ethersError });
-  }
+  }, [isValidNetwork, ethersError]);
 
   useEffect(() => {
     if (active) {
@@ -63,7 +65,7 @@ export const Web3Connect: FC = () => {
           <Profile user={account} />
         </>
       )}
-      {!isValidNetwork && active && account && <NetworkSwitcher isValid={isValidNetwork} networks={supportedChains} />}
+      {!isValidNetwork && active && account && <NetworkSwitcher />}
 
       <IconButton
         icon={account ? <MdLogout /> : <MdLogin />}

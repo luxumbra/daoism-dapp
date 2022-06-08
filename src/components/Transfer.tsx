@@ -59,15 +59,15 @@ const Transfer: FC = () => {
   const balance = tokenBalance && formatUnits(tokenBalance as BigNumber, 18);
   const isRinkeby = chainId === Rinkeby.chainId;
   const bgColor = useColorModeValue('blue.200', 'gray.700');
-  const headingColor = useColorModeValue('gray.700', 'blue.200');
+  const headingColor = useColorModeValue('blue.600', 'blue.200');
 
   const addToast = () => {
     toastRef.current = toast({
-      id: 'transfer-toast',
       title: `Token transfer 💰`,
       description: `Sending ${formData.amount} token to ${formData.toAddress}`,
       status: 'info',
       variant: 'subtle',
+      // eslint-disable-next-line unicorn/no-null
       duration: null,
     });
   };
@@ -181,6 +181,12 @@ const Transfer: FC = () => {
     }
   }, [formData, state, state.status, toast, updateToast]);
 
+  // useEffect(() => {
+  //   if (state.status === 'PendingSignature') {
+  //     throw new Error('Success');
+  //   }
+  // }, [state.status]);
+
   return (
     <Flex align="center" justify="center" data-testid="transfer">
       <Formik initialValues={formData} onSubmit={handleSubmit} validateOnBlur>
@@ -268,7 +274,7 @@ const Transfer: FC = () => {
             ) : (
               <VStack>
                 <Text fontSize="inherit">Transfers only supported on Rinkeby</Text>
-                <NetworkSwitcher isValid />
+                <NetworkSwitcher />
               </VStack>
             )}
           </Stack>
