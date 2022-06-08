@@ -12,7 +12,7 @@ export const DSTheme = extendTheme({
         scrollBehavior: 'smooth',
       },
       body: {
-        bgGradient: `${DSColors.colors.gray[800]}`,
+        bgColor: `${DSColors.colors.gray[800]}`,
         color: 'white',
         fontFamily: '"Exo 2", sans-serif',
         fontSize: '16px',

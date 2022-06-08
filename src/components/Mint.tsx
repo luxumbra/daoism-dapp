@@ -25,11 +25,10 @@ import { TypedContract } from '@usedapp/core/dist/esm/src/model/types';
 import { Formik, Field, Form, FormikHelpers, FormikState, FieldInputProps } from 'formik';
 
 import ERC20_ABI from '@daoism/abis/erc20.abi.json';
+import { NetworkSwitcher } from '@daoism/components/NetworkSwitcher';
 import { FormDataProps } from '@daoism/components/Transfer';
 import { contractAddress } from '@daoism/lib/constants';
 import { copyString, validateAddress, validateAmount } from '@daoism/lib/helpers';
-
-import { NetworkSwitcher } from './NetworkSwitcher';
 
 /**
  * TODO: Buidl a custom component that can be used to mint tokens
@@ -45,13 +44,15 @@ const Mint: FC = () => {
   const toast = useToast();
   const toastRef = useRef<ToastId>();
   const btnRef = useRef<HTMLButtonElement>(null);
-  const { chainId } = useEthers();
+  const { chainId, error: ethersError } = useEthers();
   const contract = new Contract(contractAddress, ERC20_ABI);
   const { state, send } = useContractFunction(contract as unknown as TypedContract, 'mintTo');
 
   const bgColor = useColorModeValue('blue.200', 'gray.700');
-  const headingColor = useColorModeValue('gray.700', 'blue.200');
+  const headingColor = useColorModeValue('blue.600', 'blue.200');
+
   const isRinkeby = chainId === Rinkeby.chainId;
+
   const addToast = () => {
     toastRef.current = toast({
       id: 'mint-toast',
@@ -86,8 +87,8 @@ const Mint: FC = () => {
     try {
       if (amount && amount > 0 && toAddress) {
         await send(toAddress, parseEther(amount.toString()));
-        helpers.setSubmitting(false);
       }
+      helpers.setSubmitting(false);
     } catch {
       helpers.setSubmitting(false);
     }
@@ -97,18 +98,12 @@ const Mint: FC = () => {
     try {
       switch (state.status) {
         case 'Exception': {
-          throw new Error(`Error transfering tokens: ${state.errorMessage}`);
+          throw new Error(`Error minting tokens: ${state.errorMessage}`);
         }
         case 'Fail': {
-          throw new Error(`Error transfering tokens: ${state.errorMessage}`);
+          throw new Error(`Error minting tokens: ${state.errorMessage}`);
         }
         case 'Success': {
-          updateToast({
-            title: `Token mint 💰`,
-            description: `🎉 Mint complete :  ${formData.amount} tokens minted to ${formData.toAddress} 🎉`,
-            status: 'success',
-            duration: 5000,
-          });
           updateToast({
             title: `Token mint 💰`,
             description: (

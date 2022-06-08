@@ -1,11 +1,11 @@
-import React from 'react';
+import { StrictMode } from 'react';
 
 import ReactDOM from 'react-dom/client';
 
-import App from './App';
+import App from '@daoism/App';
 
 ReactDOM.createRoot(document.querySelector('#app') as HTMLElement).render(
-  <React.StrictMode>
+  <StrictMode>
     <App />
-  </React.StrictMode>
+  </StrictMode>
 );

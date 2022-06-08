@@ -24,7 +24,7 @@ describe('Profile Component', () => {
       <div>
         <button
           aria-label="Open wallet"
-          class="chakra-button css-7gs9da"
+          class="chakra-button css-1nx5snl"
           type="button"
         >
           <svg

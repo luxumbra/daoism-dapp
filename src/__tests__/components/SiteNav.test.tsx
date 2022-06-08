@@ -34,7 +34,7 @@ describe('SiteNav Component', () => {
         >
           <button
             aria-label="Toggle dark mode"
-            class="chakra-button --no-shadow css-1s10v3h"
+            class="chakra-button --no-shadow css-p0pmy7"
             type="button"
           >
             <svg
@@ -63,7 +63,7 @@ describe('SiteNav Component', () => {
           >
             <button
               aria-label="Login"
-              class="chakra-button css-cg7au"
+              class="chakra-button css-13wyk30"
               data-testid="connect-button"
               type="button"
             >
@@ -106,7 +106,7 @@ describe('SiteNav Component', () => {
           aria-controls="disclosure-:r0:"
           aria-expanded="false"
           aria-label="Open menu"
-          class="chakra-button css-1ub0glv"
+          class="chakra-button css-fgj4d2"
           type="button"
         >
           <svg
@@ -152,7 +152,7 @@ describe('SiteNav Component', () => {
         >
           <button
             aria-label="Toggle dark mode"
-            class="chakra-button --no-shadow css-1s10v3h"
+            class="chakra-button --no-shadow css-p0pmy7"
             type="button"
           >
             <svg
@@ -181,7 +181,7 @@ describe('SiteNav Component', () => {
           >
             <button
               aria-label="Login"
-              class="chakra-button css-cg7au"
+              class="chakra-button css-13wyk30"
               data-testid="connect-button"
               type="button"
             >
