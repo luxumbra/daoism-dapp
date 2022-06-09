@@ -260,12 +260,14 @@ const Transfer: FC = () => {
                     ref={btnRef}
                     bg="blue.400"
                     color="white"
+                    name="transfer-btn"
                     _hover={{
                       bg: 'blue.500',
                     }}
                     isLoading={helpers.isSubmitting}
                     isDisabled={helpers.isSubmitting || !helpers.isValid || !hasBalance}
                     type="submit"
+                    aria-label="Transfer tokens"
                   >
                     {!hasBalance ? 'No token balance' : 'Transfer'}
                   </Button>

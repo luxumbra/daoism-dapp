@@ -6,26 +6,26 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { Footer } from '@daoism/components/Footer';
 import { Header } from '@daoism/components/Header';
-import { PageSection } from '@daoism/components/PageSection';
 import { networksConfig } from '@daoism/lib/constants';
 import { DSTheme } from '@daoism/theme';
 
+import About from './about';
+import Home from './index';
+
 const App: FC = () => (
   <DAppProvider config={networksConfig}>
-    {/* <Head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    </Head> */}
     <CSSReset />
     <ChakraProvider theme={DSTheme}>
-      <Header />
-      <PageSection>
-        <Box maxW="3xl">
-          <Text as="h1" color="inherit" data-testid="landing-title">
-            Daoism Systems Challenge
-          </Text>
+      <Router>
+        <Header />
+        <Box className="wrapper">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
         </Box>
-      </PageSection>
-      <Footer />
+        <Footer />
+      </Router>
     </ChakraProvider>
   </DAppProvider>
 );

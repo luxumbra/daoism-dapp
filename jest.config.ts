@@ -15,7 +15,6 @@ module.exports = {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
   moduleNameMapper: {
-    '@root/(.*)': '<rootDir>/$1',
     '@daoism/(.*)': '<rootDir>/src/$1',
   },
   modulePathIgnorePatterns: ['./dist/', './test/mocks.ts'],

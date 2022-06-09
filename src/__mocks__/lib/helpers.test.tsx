@@ -1,10 +1,11 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // import { screen } from '@testing-library/react';
 import { TokenInfo } from '@usedapp/core/dist/esm/src/model/TokenInfo';
 import { BigNumber } from 'ethers';
-import MatchMediaMock from 'jest-matchmedia-mock';
 
 import '@testing-library/jest-dom/extend-expect';
-import * as constants from '@daoism/lib/constants';
+// import * as constants from '@daoism/lib/constants';
 import * as helpers from '@daoism/lib/helpers';
 
 const tokenInfo: TokenInfo = {

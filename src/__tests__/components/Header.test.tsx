@@ -2,6 +2,7 @@
 
 import '@testing-library/jest-dom';
 import MatchMediaMock from 'jest-matchmedia-mock';
+import { MemoryRouter } from 'react-router-dom';
 
 import { Header } from '@daoism/components/Header';
 import { render } from '@daoism/test/test-utils';
@@ -16,7 +17,11 @@ describe('Header', () => {
     matchMedia.clear();
   });
 
-  const Component = <Header />;
+  const Component = (
+    <MemoryRouter>
+      <Header />
+    </MemoryRouter>
+  );
 
   it('renders the site header', () => {
     const { container } = render(Component);
@@ -68,7 +73,22 @@ describe('Header', () => {
             <div
               class="css-x8c2x7"
               data-testid="mobile-menu"
-            />
+            >
+              <menu
+                class="chakra-stack mobile-nav css-180oz2r"
+              >
+                <a
+                  href="/"
+                >
+                  Home
+                </a>
+                <a
+                  href="/about"
+                >
+                  About
+                </a>
+              </menu>
+            </div>
           </div>
         </header>
         <span
