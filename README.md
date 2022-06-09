@@ -43,9 +43,10 @@ Can be viewed at https://daoism.luxumbra.dev
 
 ### Issues I had
 
-I have not used testing libraries before and _really_ wanted to take this opportunity to learn an important skill I have not gotten to learning yet. I ran into issues with even the simplest test not passing in most files - ~~I am pretty sure it is a typescript / jest config issue~~ I spent hours trawling SO and googling for solutions and turns out NextJS can be a pain when testing ESM. A friend took a look at my config, couldn't see any issues and suggested trying [Vite](https://vitejs.dev/). So I stripped out NextJS and the app now uses Vite. Tests now run without issue but due to my fruitless rabbithole of NextJS & Jest issues I have not written any meaningful tests...yet.
+I have not used testing libraries before and _really_ wanted to take this opportunity to learn an important skill I have not gotten to learning yet. I ran into issues with even the simplest test not passing in most files - ~~I am pretty sure it is a typescript / jest config issue~~ I spent hours trawling SO and googling for solutions and turns out NextJS can be a pain when testing ESM. A friend took a look at my config, couldn't see any issues and suggested trying [Vite](https://vitejs.dev/). So I stripped out NextJS and the app now uses Vite with the basic tests I have added now running without issue.
 
 Thanks for the opportunity to do this. Successful or not in my application, the process has been amazing and while trying to get some bonus points (and probably taking too long), I have fallen down a new rabbithole :rabbit: and look forward to seeing my coverage go from red to green. :green_heart:
+
 
 ## Getting started
 
@@ -66,7 +67,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ### Run build
 
 The build runs `tsc` to lint the code before running `vite build` to bundle the app in `esm`, `cjs` & `iife` formats.
-The production build from Vite is taking a while for such a smol project.
+Note: The production build from Vite is taking a while for such a smol project.
 
 ```bash
 yarn ui:build
@@ -97,6 +98,9 @@ Run pre-commit checks with Husky
 yarn prepare
 ```
 
-## Deployed on ~~Vercel~~ Fleek
+## Deployed on ~~Vercel~~ ~~Fleek~~ Netlify
 
-All PR previews, develop & prod now deploy to [Fleek](https://fleek.co) via Github CI.
+All PR previews, develop & prod now deploy to [Netlify](https://netlify.com).
+Once I dropped Vercel I wanted to use Fleek for the IPFS / decentralisation ascpects but a) they don't do PR previews on more than one branch and b) their service has been down for the last 18 hours, so I went to Netlify. 😅 
+
+
