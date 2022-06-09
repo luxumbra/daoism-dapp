@@ -1,15 +1,24 @@
 // import { screen } from '@testing-library/react';
-import MatchMediaMock from 'jest-matchmedia-mock';
 
 import '@testing-library/jest-dom/extend-expect';
+import MatchMediaMock from 'jest-matchmedia-mock';
+import { MemoryRouter } from 'react-router-dom';
 
 import { DesktopMenu, MobileMenu, HeaderTools } from '@daoism/components/SiteNav';
 import { render } from '@daoism/test/test-utils';
 
 let matchMedia: MatchMediaMock;
 describe('SiteNav Component', () => {
-  const DesktopComponent = <DesktopMenu />;
-  const MobileComponent = <MobileMenu />;
+  const DesktopComponent = (
+    <MemoryRouter>
+      <DesktopMenu />
+    </MemoryRouter>
+  );
+  const MobileComponent = (
+    <MemoryRouter>
+      <MobileMenu />
+    </MemoryRouter>
+  );
   const HeaderToolsComponent = <HeaderTools />;
 
   beforeAll(() => {
@@ -27,7 +36,18 @@ describe('SiteNav Component', () => {
         <menu
           class="chakra-stack css-zu1d9v"
           data-testid="sitenav"
-        />
+        >
+          <a
+            href="/"
+          >
+            Home
+          </a>
+          <a
+            href="/about"
+          >
+            About
+          </a>
+        </menu>
         <div
           class="chakra-stack css-6xdbpf"
           data-testid="header-tools"
@@ -132,7 +152,22 @@ describe('SiteNav Component', () => {
         <div
           class="css-x8c2x7"
           data-testid="mobile-menu"
-        />
+        >
+          <menu
+            class="chakra-stack mobile-nav css-180oz2r"
+          >
+            <a
+              href="/"
+            >
+              Home
+            </a>
+            <a
+              href="/about"
+            >
+              About
+            </a>
+          </menu>
+        </div>
         <span
           class="chakra-env"
           hidden=""

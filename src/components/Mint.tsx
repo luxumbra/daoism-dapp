@@ -221,10 +221,10 @@ const Mint: FC = () => {
                     </FormControl>
                   )}
                 </Field>
-                <Field name="amount" validate={helpers.touched.amount && (() => validateAmount(formData.amount))}>
+                <Field name="mintAmount" validate={helpers.touched.amount && (() => validateAmount(formData.amount))}>
                   {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                   {({ field, form }: { field: FieldInputProps<any>; form: FormikState<any> }) => (
-                    <FormControl id="amount" isInvalid={!!(form.errors.amount && form.touched.amount)} isRequired>
+                    <FormControl id="mintAmount" isInvalid={!!(form.errors.amount && form.touched.amount)} isRequired>
                       <FormLabel htmlFor="amount">Amount</FormLabel>
                       <Tooltip label="How many tokens?" aria-label="Amount of tokens to send" hasArrow>
                         <Input {...field} id="amount" type="number" value={formData.amount} onChange={handleChange} />
