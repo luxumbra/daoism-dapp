@@ -1,9 +1,9 @@
-import path, {resolve} from "path";
+import path, { resolve } from "path";
+import eslintPlugin from '@nabla/vite-plugin-eslint'
 import { defineConfig } from "vite";
 import packageJson from "./package.json";
 import react from "@vitejs/plugin-react";
-// import legacy from '@vitejs/plugin-legacy'
-
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 const getPackageName = () => {
   return packageJson.name;
@@ -35,13 +35,19 @@ module.exports = defineConfig({
       "@daoism": root,
     },
   },
+  plugins: [
+    tsconfigPaths(),
+    react(),
+    eslintPlugin(),
+  ],
   build: {
     outDir,
+    sourcemap: true,
     emptyOutDir: true,
     rollupOptions: {
       input: {
         main: resolve(root, 'index.html'),
-      }
+      },
     },
     lib: {
       entry: path.resolve(root, "index.ts"),
@@ -50,7 +56,4 @@ module.exports = defineConfig({
       fileName: (format) => fileName[format],
     },
   },
-  plugins: [
-    react(),
-  ],
 });

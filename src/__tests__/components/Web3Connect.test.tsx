@@ -28,7 +28,7 @@ describe('Web3Connect Component', () => {
         >
           <button
             aria-label="Login"
-            class="chakra-button css-cg7au"
+            class="chakra-button css-13wyk30"
             data-testid="connect-button"
             type="button"
           >

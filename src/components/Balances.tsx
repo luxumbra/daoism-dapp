@@ -93,14 +93,14 @@ export default function Balances({ user, network, tokens }: BalancesProps) {
 
   useEffect(() => {
     try {
-      if (networkBalance === undefined) {
-        throw new Error("Can't get network balance");
+      if (currentNetworkTokens.length <= 0) {
+        throw new Error('Not a valid network');
       }
       setLoading(false);
-    } catch (error) {
+    } catch {
       setLoading(false);
       // eslint-disable-next-line no-console
-      console.log('Balance error', error);
+      // console.log(error);
     }
   }, [network, networkBalance, user]);
 

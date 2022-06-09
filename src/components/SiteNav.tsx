@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { MdDarkMode, MdLightMode, MdMenu, MdMenuOpen } from 'react-icons/md';
 
-import ChakraNextLink from '@daoism/components/ChakraNextLink';
+import ChakraRouterLink from '@daoism/components/ChakraRouterLink';
 import { Web3Connect } from '@daoism/components/Web3Connect';
 
 export const HeaderTools: FC = () => {
@@ -80,10 +80,10 @@ export const MobileMenu: FC = () => {
         zIndex={0}
         data-testid="mobile-menu"
       >
-        {/* <VStack as="menu" className="mobile-nav" spacing={8} px={0} height="auto">
-          <ChakraNextLink href="/">Home</ChakraNextLink>
-          <ChakraNextLink href="/about">About</ChakraNextLink>
-        </VStack> */}
+        <VStack as="menu" className="mobile-nav" spacing={8} px={0} height="auto">
+          <ChakraRouterLink href="/">Home</ChakraRouterLink>
+          <ChakraRouterLink href="/about">About</ChakraRouterLink>
+        </VStack>
       </Box>
       {disclosureProps.hidden ? undefined : <HeaderTools />}
     </>
@@ -105,8 +105,8 @@ export const DesktopMenu: FC = () => {
         zIndex={9}
         data-testid="sitenav"
       >
-        {/* <ChakraNextLink href="/">Home</ChakraNextLink>
-        <ChakraNextLink href="/about">About</ChakraNextLink> */}
+        <ChakraRouterLink href="/">Home</ChakraRouterLink>
+        <ChakraRouterLink href="/about">About</ChakraRouterLink>
       </HStack>
       <HeaderTools />
     </>

@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { screen } from '@testing-library/react';
+import { queryByRole, screen } from '@testing-library/react';
 import MatchMediaMock from 'jest-matchmedia-mock';
 
 import App from '@daoism/App';
@@ -41,7 +41,7 @@ describe('App', () => {
               aria-controls="disclosure-:r0:"
               aria-expanded="false"
               aria-label="Open menu"
-              class="chakra-button css-1ub0glv"
+              class="chakra-button css-fgj4d2"
               type="button"
             >
               <svg
@@ -67,28 +67,55 @@ describe('App', () => {
             <div
               class="css-x8c2x7"
               data-testid="mobile-menu"
-            />
+            >
+              <menu
+                class="chakra-stack mobile-nav css-180oz2r"
+              >
+                <a
+                  href="/"
+                >
+                  Home
+                </a>
+                <a
+                  href="/about"
+                >
+                  About
+                </a>
+              </menu>
+            </div>
           </div>
         </header>
-        <main
-          class="css-1yj2m6r"
-          data-testid="pageSection-component"
+        <div
+          class="wrapper css-0"
         >
-          <section
-            class="css-13hjh6d"
+          <div
+            class="wrapper css-0"
           >
-            <div
-              class="css-5jbw7z"
+            <main
+              class="css-1yj2m6r"
+              data-testid="pageSection-component"
             >
-              <h1
-                class="chakra-text css-q2y3yl"
-                data-testid="landing-title"
+              <section
+                class="css-13hjh6d"
               >
-                Daoism Systems Challenge
-              </h1>
-            </div>
-          </section>
-        </main>
+                <div
+                  class="css-5jbw7z"
+                >
+                  <h1
+                    class="chakra-text css-q2y3yl"
+                  >
+                    Daoism Systems
+                  </h1>
+                  <p
+                    class="chakra-text css-s2uf1z"
+                  >
+                    Coding challenge
+                  </p>
+                </div>
+              </section>
+            </main>
+          </div>
+        </div>
         <footer
           class="css-1liiab7"
           data-testid="footer-component"
@@ -116,8 +143,8 @@ describe('App', () => {
   });
 
   it('should render the page title correctly', () => {
-    const { queryByTestId } = render(Component);
-    const title = queryByTestId('landing-title');
+    const { container } = render(Component);
+    const title = container.querySelector('h1');
     expect(title).toBeInTheDocument();
   });
 });

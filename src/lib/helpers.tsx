@@ -150,10 +150,10 @@ export const copyString = (text: string): boolean => {
 };
 
 export function displayBalance(num: BigNumber | undefined, info: TokenInfo | undefined) {
-  if (!num) {
+  if (num === undefined || info === undefined) {
     return { short: '0', full: '0' };
   }
-  const short = Number.parseInt(formatUnits(num, info?.decimals), 10).toFixed(5);
+  const short = Number.parseFloat(formatUnits(num, info?.decimals)).toFixed(5);
   const full = formatUnits(num, info?.decimals);
   return {
     short,
