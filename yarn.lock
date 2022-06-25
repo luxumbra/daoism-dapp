@@ -2100,18 +2100,17 @@
   resolved "https://registry.yarnpkg.com/@uniswap/token-lists/-/token-lists-1.0.0-beta.29.tgz#7be3b62aeab84c710a153a115df3bb8480027684"
   integrity sha512-b19mDY5G94GW9tKjvoNEbdApWM1GNahh5EFYs7LsBE7J3r7qNsJ6MqZYoPg73KS6GOrp8/2XdcSXRBUt6NHjZg==
 
-"@usedapp/core@^1.0.5":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@usedapp/core/-/core-1.0.8.tgz#3ab8e88e8c12568afe699c06d7a0f0696e998d87"
-  integrity sha512-6j877hph0YCUAeF8nw/xdevuahLwhaWXZePJhfKaFI5BStMTPPJ27tAV8L/Z1Htd75Hu91/knlD/sTpE3wfvgA==
+"@usedapp/core@^1.0.14":
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/@usedapp/core/-/core-1.0.14.tgz#df8546674a6617ca9faa80bb5db1460ae83584b9"
+  integrity sha512-SIhCH7nOJDcZJkixeICHBojNrGE0EESZOZROUOqzbERuXwHO2gl7oQ+PX8lLmjadWPQ6umiQO6R235GqzV0Iiw==
   dependencies:
     "@metamask/detect-provider" "^1.2.0"
     "@uniswap/token-lists" "^1.0.0-beta.27"
     fetch-mock "^9.11.0"
     lodash.merge "^4.6.2"
     lodash.pickby "^4.6.0"
-    nanoid "3.1.22"
-    react-flat-providers "^2.1.0"
+    nanoid "3.3.4"
 
 "@vitejs/plugin-legacy@^1.8.2":
   version "1.8.2"
@@ -5435,12 +5434,7 @@ mute-stream@~0.0.4:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
-nanoid@3.1.22:
-  version "3.1.22"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.22.tgz#b35f8fb7d151990a8aebd5aa5015c03cf726f844"
-  integrity sha512-/2ZUaJX2ANuLtTvqTlgqBQNJoQO398KyJgZloL0PZkC0dpysjncRUPsFe3DUPzz/y3h+u7C46np8RMuvF3jsSQ==
-
-nanoid@^3.3.4:
+nanoid@3.3.4, nanoid@^3.3.4:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
@@ -5895,11 +5889,6 @@ react-fast-compare@^2.0.1:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
-
-react-flat-providers@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-flat-providers/-/react-flat-providers-2.1.0.tgz#ebbc0bb0ff14adfcbadce17021edd62c473bef64"
-  integrity sha512-kYbIB5TmNkgf79Nbv2lb5bj3T2spLSZ6BLwLS3mgN61WPsYUeviuKV+FyfLbQDU1rFV1Z1tDvNLaS8cFKucEeQ==
 
 react-focus-lock@^2.9.1:
   version "2.9.1"
